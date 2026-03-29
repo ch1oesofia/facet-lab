@@ -269,6 +269,76 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
+.pillars-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+
+.pillar-option {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface-dim);
+  border: 1.5px solid var(--outline);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.pillar-option:hover { border-color: var(--blue-light); }
+.pillar-option.selected {
+  border-color: var(--blue);
+  background: var(--blue-light);
+}
+.pillar-option input[type="checkbox"] {
+  accent-color: var(--blue);
+  margin-top: .2rem;
+  flex-shrink: 0;
+}
+.pillar-option-content {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+.pillar-option-label {
+  font-weight: 600;
+  font-size: .92rem;
+  color: var(--on-surface);
+}
+.pillar-option-desc {
+  font-size: .78rem;
+  color: var(--on-surface-2);
+  line-height: 1.4;
+}
+
+.custom-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+.custom-pillar-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.custom-pillar-input {
+  flex: 1;
+  font-family: var(--font);
+  font-size: .95rem;
+  padding: .75rem 1rem;
+  border: 1.5px solid var(--outline);
+  border-radius: var(--radius-sm);
+  background: var(--surface-dim);
+  outline: none;
+  transition: border-color .15s;
+}
+.custom-pillar-input:focus { border-color: var(--blue); }
+.custom-pillar-input::placeholder { color: #9AA0A6; }
+
+/* Legacy pillar card styles kept for compatibility */
 .pillars-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1rem; }
 
 .pillar-card {
@@ -588,6 +658,7 @@ h2 {
 .form-field.has-error textarea,
 .form-field.has-error select,
 .pillar-card.has-error { border-color: var(--error); }
+.pillars-grid.has-error { outline: 2px solid var(--error); border-radius: var(--radius); }
 
 .error-msg {
   font-size: .8rem;
@@ -601,6 +672,7 @@ h2 {
   .tagline { font-size: 1.1rem; }
   .hero-actions { flex-direction: column; }
   .form-row { grid-template-columns: 1fr; }
+  .pillars-grid { grid-template-columns: 1fr; }
   .gem-cards { grid-template-columns: 1fr; }
   .flow-steps { flex-direction: column; align-items: stretch; }
   .flow-arrow { display: none; }

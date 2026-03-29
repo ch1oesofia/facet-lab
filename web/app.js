@@ -7,9 +7,51 @@ import { generateOrchInstructions, generateFacetInstructions, generateOrchKnowle
 const WIZARD_STEPS = ['discover', 'design', 'generate', 'activate'];
 
 const state = {
-  pillars: [],    // [{ text: '' }]
+  pillars: [],    // [{ id, label, domain, desc, checked, custom, customText }]
+  customPillars: [], // [{ text: '' }]
   orchestrator: { name: '', style: '', description: '' },
-  facets: [],     // [{ name, domain, role, description, pillarText }]
+  facets: [],     // [{ name, domain, role, description, pillarText, ... }]
+};
+
+// ─── Curated Pillar Catalog ───
+
+const PILLAR_CATALOG = [
+  { id: 'career',        label: 'Career & Professional Growth', domain: 'Career & Professional Growth',  desc: 'Job search, skill-building, networking, promotions, side projects' },
+  { id: 'finance',       label: 'Personal Finance',             domain: 'Personal Finance',               desc: 'Budgeting, debt, saving, investing, expense tracking' },
+  { id: 'health',        label: 'Health & Wellness',            domain: 'Health & Wellness',              desc: 'Exercise, nutrition, sleep, stress management, medical' },
+  { id: 'calendar',      label: 'Calendar & Scheduling',        domain: 'Calendar & Time Management',     desc: 'Time management, deadlines, event planning, routine structure' },
+  { id: 'relationships', label: 'Relationships & Social',       domain: 'Relationships & Social',         desc: 'Family, friendships, dating, social commitments, communication' },
+  { id: 'learning',      label: 'Learning & Personal Growth',   domain: 'Learning & Personal Growth',     desc: 'Reading, courses, hobbies, self-improvement, curiosity' },
+  { id: 'creative',      label: 'Creative Expression',          domain: 'Creative Expression',            desc: 'Writing, art, music, design, content creation' },
+  { id: 'rest',          label: 'Rest & Recovery',              domain: 'Rest & Recovery',                desc: 'Sleep hygiene, downtime, recharging, boundaries with work' },
+  { id: 'home',          label: 'Home & Environment',           domain: 'Home & Environment',             desc: 'Living space, chores, organization, pets, moving' },
+  { id: 'spirituality',  label: 'Spirituality & Purpose',       domain: 'Spirituality & Purpose',         desc: 'Meditation, faith, meaning-making, values alignment' },
+];
+
+const NAME_SUGGESTIONS = {
+  'Career & Professional Growth':  'e.g. Tony, Miranda, Forge, Scout',
+  'Personal Finance':              'e.g. Peso, Mint, Vault, Ledger',
+  'Health & Wellness':             'e.g. Maddy, Rocky, Pulse, Coach',
+  'Calendar & Time Management':    'e.g. Dora, Tempo, Clio, Keeper',
+  'Relationships & Social':        'e.g. Joy, Hearth, Luna, Haven',
+  'Learning & Personal Growth':    'e.g. Hermione, Neo, Beacon, Lumen',
+  'Creative Expression':           'e.g. Muse, Frida, Lyra, Bloom',
+  'Rest & Recovery':               'e.g. Olaf, Serene, Harbor, Willow',
+  'Home & Environment':            'e.g. Nester, Cove, Roost, Acre',
+  'Spirituality & Purpose':        'e.g. Sage, Aurora, Compass, North',
+};
+
+const ROLE_SUGGESTIONS = {
+  'Career & Professional Growth':  'Career Strategist',
+  'Personal Finance':              'Financial Strategist',
+  'Health & Wellness':             'Health & Wellness Coach',
+  'Calendar & Time Management':    'Schedule Keeper',
+  'Relationships & Social':        'Relationship Advisor',
+  'Learning & Personal Growth':    'Learning Guide',
+  'Creative Expression':           'Creative Director',
+  'Rest & Recovery':               'Wellness Guardian',
+  'Home & Environment':            'Home Manager',
+  'Spirituality & Purpose':        'Mindfulness Guide',
 };
 
 // ─── Navigation ───
@@ -38,69 +80,102 @@ function goTo(sectionId) {
 // ─── Step 1: Discover ───
 
 function initDiscover() {
-  if (state.pillars.length === 0) {
-    state.pillars = [{ text: '' }, { text: '' }];
-  }
-  renderPillars();
+  renderPillarGrid();
+  renderCustomPillars();
 }
 
-function renderPillars() {
-  const list = document.getElementById('pillars-list');
-  list.innerHTML = '';
-  state.pillars.forEach((p, i) => {
-    const card = document.createElement('div');
-    card.className = 'pillar-card';
+function renderPillarGrid() {
+  const grid = document.getElementById('pillars-grid');
+  grid.innerHTML = '';
+  PILLAR_CATALOG.forEach(p => {
+    const checked = state.pillars.some(s => s.id === p.id);
+    const card = document.createElement('label');
+    card.className = `pillar-option${checked ? ' selected' : ''}`;
     card.innerHTML = `
-      <div class="pillar-num">${i + 1}</div>
-      <div class="pillar-input">
-        <input type="text"
-               placeholder="The part of me that…"
-               value="${escapeAttr(p.text)}"
-               data-index="${i}">
+      <input type="checkbox" value="${p.id}" ${checked ? 'checked' : ''}>
+      <div class="pillar-option-content">
+        <span class="pillar-option-label">${escapeHTML(p.label)}</span>
+        <span class="pillar-option-desc">${escapeHTML(p.desc)}</span>
       </div>
-      ${state.pillars.length > 2 ? `<button class="pillar-remove" data-index="${i}" title="Remove">×</button>` : ''}
     `;
-    list.appendChild(card);
-  });
-
-  list.querySelectorAll('input').forEach(input => {
-    input.addEventListener('input', e => {
-      state.pillars[+e.target.dataset.index].text = e.target.value;
+    card.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) {
+        state.pillars.push({ ...p, checked: true, custom: false });
+        card.classList.add('selected');
+      } else {
+        state.pillars = state.pillars.filter(s => s.id !== p.id);
+        card.classList.remove('selected');
+      }
     });
-  });
-
-  list.querySelectorAll('.pillar-remove').forEach(btn => {
-    btn.addEventListener('click', e => {
-      state.pillars.splice(+e.target.dataset.index, 1);
-      renderPillars();
-    });
+    grid.appendChild(card);
   });
 }
 
-function addPillar() {
-  state.pillars.push({ text: '' });
-  renderPillars();
-  const inputs = document.querySelectorAll('#pillars-list input');
+function renderCustomPillars() {
+  const container = document.getElementById('custom-pillars');
+  container.innerHTML = '';
+  state.customPillars.forEach((cp, i) => {
+    const row = document.createElement('div');
+    row.className = 'custom-pillar-row';
+    row.innerHTML = `
+      <input type="text"
+             class="custom-pillar-input"
+             placeholder="Other pillar — e.g. Travel & Adventure"
+             value="${escapeAttr(cp.text)}"
+             data-index="${i}">
+      <button class="pillar-remove" data-index="${i}" title="Remove">×</button>
+    `;
+    row.querySelector('input').addEventListener('input', e => {
+      state.customPillars[+e.target.dataset.index].text = e.target.value;
+    });
+    row.querySelector('.pillar-remove').addEventListener('click', e => {
+      state.customPillars.splice(+e.target.dataset.index, 1);
+      renderCustomPillars();
+    });
+    container.appendChild(row);
+  });
+}
+
+function addCustomPillar() {
+  state.customPillars.push({ text: '' });
+  renderCustomPillars();
+  const inputs = document.querySelectorAll('.custom-pillar-input');
   inputs[inputs.length - 1].focus();
 }
 
 function finishDiscover() {
-  // Validate: at least 2 non-empty pillars
-  const filled = state.pillars.filter(p => p.text.trim().length > 0);
-  if (filled.length < 2) {
-    showError('pillars-list', 'Please describe at least 2 life pillars.');
+  // Collect selected catalog pillars
+  const selected = [...state.pillars];
+
+  // Add non-empty custom pillars
+  state.customPillars.forEach(cp => {
+    const t = cp.text.trim();
+    if (t) {
+      selected.push({
+        id: 'custom_' + t.toLowerCase().replace(/\s+/g, '_'),
+        label: t,
+        domain: t,
+        desc: '',
+        checked: true,
+        custom: true,
+      });
+    }
+  });
+
+  if (selected.length < 2) {
+    showError('pillars-grid', 'Please select at least 2 life pillars.');
     return;
   }
-  // Remove empties
-  state.pillars = state.pillars.filter(p => p.text.trim().length > 0);
+
+  state.pillars = selected;
 
   // Pre-populate facets from pillars
-  state.facets = state.pillars.map(p => ({
+  state.facets = selected.map(p => ({
     name: '',
-    domain: guessDomain(p.text),
-    role: '',
+    domain: p.domain,
+    role: ROLE_SUGGESTIONS[p.domain] || '',
     description: '',
-    pillarText: p.text,
+    pillarText: p.label,
     extensions: [],
     data_scope: {},
     external_sources: [],
@@ -108,19 +183,6 @@ function finishDiscover() {
 
   renderDesignFacets();
   goTo('design');
-}
-
-function guessDomain(text) {
-  const t = text.toLowerCase();
-  if (t.includes('money') || t.includes('financ') || t.includes('budget') || t.includes('saving')) return 'Personal Finance';
-  if (t.includes('health') || t.includes('exercis') || t.includes('fit') || t.includes('wellness') || t.includes('gym')) return 'Health & Wellness';
-  if (t.includes('career') || t.includes('work') || t.includes('job') || t.includes('professional')) return 'Career & Professional Growth';
-  if (t.includes('schedul') || t.includes('calendar') || t.includes('time') || t.includes('plan')) return 'Calendar & Time Management';
-  if (t.includes('learn') || t.includes('study') || t.includes('education') || t.includes('read')) return 'Learning & Personal Growth';
-  if (t.includes('relation') || t.includes('friend') || t.includes('family') || t.includes('social')) return 'Relationships & Social';
-  if (t.includes('creat') || t.includes('art') || t.includes('writ') || t.includes('music')) return 'Creative Expression';
-  if (t.includes('rest') || t.includes('sleep') || t.includes('relax') || t.includes('recharge')) return 'Rest & Recovery';
-  return '';
 }
 
 // ─── Step 2: Design ───
@@ -138,7 +200,7 @@ function renderDesignFacets() {
         <div class="form-field">
           <label>Name</label>
           <input type="text" data-facet="${i}" data-field="name"
-                 placeholder="e.g. Forge, Sage, Vault"
+                 placeholder="${escapeAttr(NAME_SUGGESTIONS[f.domain] || 'e.g. Forge, Sage, Vault')}"
                  value="${escapeAttr(f.name)}">
         </div>
         <div class="form-field">
@@ -152,17 +214,24 @@ function renderDesignFacets() {
         <div class="form-field">
           <label>Role Title</label>
           <input type="text" data-facet="${i}" data-field="role"
-                 placeholder="e.g. Financial Advisor"
+                 placeholder="${escapeAttr(ROLE_SUGGESTIONS[f.domain] || 'e.g. Specialist')}"
                  value="${escapeAttr(f.role)}">
         </div>
         <div class="form-field">
-          <label>Inspiration (optional)</label>
-          <input type="text" data-facet="${i}" data-field="inspiration"
-                 placeholder="A character, mentor, or idea">
+          <label>Personality</label>
+          <select data-facet="${i}" data-field="personality">
+            <option value="">Choose…</option>
+            <option value="Direct and no-nonsense" ${f.personality === 'Direct and no-nonsense' ? 'selected' : ''}>Direct & no-nonsense</option>
+            <option value="Warm and encouraging" ${f.personality === 'Warm and encouraging' ? 'selected' : ''}>Warm & encouraging</option>
+            <option value="Analytical and data-driven" ${f.personality === 'Analytical and data-driven' ? 'selected' : ''}>Analytical & data-driven</option>
+            <option value="Creative and exploratory" ${f.personality === 'Creative and exploratory' ? 'selected' : ''}>Creative & exploratory</option>
+            <option value="Tough-love motivator" ${f.personality === 'Tough-love motivator' ? 'selected' : ''}>Tough-love motivator</option>
+            <option value="Calm and patient" ${f.personality === 'Calm and patient' ? 'selected' : ''}>Calm & patient</option>
+          </select>
         </div>
       </div>
       <div class="form-field full">
-        <label>Personality &amp; Description</label>
+        <label>Description <span class="hint">(what does this agent do?)</span></label>
         <textarea data-facet="${i}" data-field="description" rows="2"
                   placeholder="How does this agent think and communicate?">${escapeHTML(f.description)}</textarea>
       </div>
@@ -202,8 +271,9 @@ function renderDesignFacets() {
     container.appendChild(card);
   });
 
-  container.querySelectorAll('input[data-field], textarea[data-field]').forEach(el => {
-    el.addEventListener('input', e => {
+  container.querySelectorAll('input[data-field], textarea[data-field], select[data-field]').forEach(el => {
+    const evtType = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(evtType, e => {
       const idx = +e.target.dataset.facet;
       const field = e.target.dataset.field;
       if (field === 'external_raw') {
@@ -476,7 +546,7 @@ function init() {
 
 // ─── Public API ───
 
-const app = { goTo, addPillar, finishDiscover, finishDesign };
+const app = { goTo, addCustomPillar, finishDiscover, finishDesign };
 window.app = app;
 
 init();

@@ -69,7 +69,7 @@
       <div class="about-flow">
         <h3>The Flow</h3>
         <div class="flow-steps">
-          <div class="flow-step"><span class="flow-num">1</span>Reflect on your life pillars</div>
+          <div class="flow-step"><span class="flow-num">1</span>Select your life pillars</div>
           <div class="flow-arrow">→</div>
           <div class="flow-step"><span class="flow-num">2</span>Name &amp; design each agent</div>
           <div class="flow-arrow">→</div>
@@ -96,21 +96,18 @@
   <!-- ─── STEP 1: DISCOVER ─── -->
   <section id="discover" class="step">
     <div class="container narrow">
-      <h2>Discover Your Parts</h2>
+      <h2>Discover Your Pillars</h2>
       <p class="step-intro">
-        Think about the <strong>voices in your head</strong> that show up
-        during a typical week. Not emotions — life domains. The part that
-        worries about money. The part that pushes you to exercise. The part
-        that won't stop thinking about work.
+        Pick the <strong>life domains</strong> that actually occupy your
+        mental energy. Each pillar becomes a dedicated AI agent. Select 3–7.
       </p>
-      <p class="step-hint">
-        Complete the sentence: <em>"The part of me that…"</em><br>
-        Add at least 2 pillars. Most people find 3–5.
-      </p>
-      <div id="pillars-list" class="pillars-list">
-        <!-- Pillar cards inserted by JS -->
+      <div id="pillars-grid" class="pillars-grid">
+        <!-- Pillar checkboxes inserted by JS -->
       </div>
-      <button class="btn ghost add-btn" onclick="app.addPillar()">+ Add Another Pillar</button>
+      <div id="custom-pillars" class="custom-pillars">
+        <!-- Custom "Other" rows inserted by JS -->
+      </div>
+      <button class="btn ghost add-btn" onclick="app.addCustomPillar()">+ Add Other Pillar</button>
       <div class="step-actions">
         <button class="btn ghost" onclick="app.goTo('landing')">Back</button>
         <button class="btn primary" onclick="app.finishDiscover()">Next: Design Your Council</button>
@@ -144,6 +141,7 @@
               <option value="Commander — decisive, action-oriented">Commander (decisive, action-oriented)</option>
               <option value="Advisor — analytical, options-based">Advisor (analytical, options-based)</option>
               <option value="Companion — warm, supportive">Companion (warm, supportive)</option>
+              <option value="Other">Other…</option>
             </select>
           </div>
         </div>
