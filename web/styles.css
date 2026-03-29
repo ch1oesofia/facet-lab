@@ -207,6 +207,64 @@ a { color: var(--blue-dark); }
   background: var(--outline);
 }
 
+/* ─── EXAMPLE COUNCIL (landing) ─── */
+.example-council {
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 720px;
+}
+
+.example-label {
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--on-surface-2);
+  margin-bottom: 1rem;
+  opacity: .7;
+}
+
+.example-cards {
+  display: flex;
+  gap: .75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.example-card {
+  background: rgba(255,255,255,.85);
+  border: 1.5px solid var(--outline);
+  border-radius: var(--radius);
+  padding: .875rem 1rem;
+  text-align: center;
+  min-width: 110px;
+  flex: 1 1 110px;
+  max-width: 148px;
+  backdrop-filter: blur(4px);
+  transition: transform .2s cubic-bezier(0.2, 0, 0, 1),
+              box-shadow .2s cubic-bezier(0.2, 0, 0, 1);
+}
+.example-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+.example-card--orch {
+  background: var(--gradient-soft);
+  border-color: var(--blue);
+}
+
+.example-card-sparkle { font-size: 1.4rem; margin-bottom: .35rem; }
+.example-card-name { font-weight: 700; font-size: .95rem; }
+.example-card-role { font-size: .72rem; color: var(--blue-dark); font-weight: 600; margin: .2rem 0 .35rem; }
+.example-card-desc { font-size: .72rem; color: var(--on-surface-2); line-height: 1.4; }
+
+.example-caption {
+  font-size: .8rem;
+  color: var(--on-surface-2);
+  opacity: .75;
+}
+
 /* ─── ABOUT ─── */
 .about-grid {
   display: grid;
