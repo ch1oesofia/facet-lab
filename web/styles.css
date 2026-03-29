@@ -21,8 +21,8 @@
   --gradient:    linear-gradient(135deg, #4285F4 0%, #8E24AA 100%);
   --gradient-soft:linear-gradient(135deg, #D2E3FC 0%, #E8DAEF 100%);
 
-  /* Type */
-  --font:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Type — Roboto is the canonical Material Design 3 / Google typeface */
+  --font:        'Roboto', 'Google Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --radius:      12px;
   --radius-sm:   8px;
   --shadow:      0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
@@ -112,12 +112,20 @@ a { color: var(--blue-dark); }
 .btn {
   font-family: var(--font);
   font-size: .95rem;
-  font-weight: 600;
+  font-weight: 500;
   padding: .75rem 1.75rem;
+  min-height: 48px;
   border-radius: 100px;
   border: none;
   cursor: pointer;
-  transition: all .15s ease;
+  transition: box-shadow .2s cubic-bezier(0.2, 0, 0, 1),
+              background-color .2s cubic-bezier(0.2, 0, 0, 1),
+              opacity .2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .btn.primary {
@@ -125,14 +133,16 @@ a { color: var(--blue-dark); }
   color: white;
   box-shadow: var(--shadow);
 }
-.btn.primary:hover { opacity: .9; box-shadow: var(--shadow-md); }
+.btn.primary:hover { opacity: .88; box-shadow: var(--shadow-md); }
+.btn.primary:active { opacity: .78; box-shadow: var(--shadow); }
 
 .btn.ghost {
   background: transparent;
   color: var(--blue-dark);
   border: 1.5px solid var(--outline);
 }
-.btn.ghost:hover { background: var(--surface-dim); }
+.btn.ghost:hover { background: var(--surface-dim); border-color: var(--blue); }
+.btn.ghost:active { background: var(--blue-light); }
 
 .btn.sm {
   font-size: .85rem;
@@ -285,12 +295,17 @@ h2 {
   border: 1.5px solid var(--outline);
   border-radius: var(--radius);
   cursor: pointer;
-  transition: border-color .15s, background .15s;
+  transition: border-color .2s cubic-bezier(0.2, 0, 0, 1),
+              background .2s cubic-bezier(0.2, 0, 0, 1);
 }
-.pillar-option:hover { border-color: var(--blue-light); }
+.pillar-option:hover { border-color: var(--blue); background: var(--surface); }
 .pillar-option.selected {
   border-color: var(--blue);
   background: var(--blue-light);
+}
+.pillar-option:focus-within {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
 }
 .pillar-option input[type="checkbox"] {
   accent-color: var(--blue);
@@ -333,9 +348,10 @@ h2 {
   border-radius: var(--radius-sm);
   background: var(--surface-dim);
   outline: none;
-  transition: border-color .15s;
+  transition: border-color .2s cubic-bezier(0.2, 0, 0, 1);
 }
 .custom-pillar-input:focus { border-color: var(--blue); }
+.custom-pillar-input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
 .custom-pillar-input::placeholder { color: #9AA0A6; }
 
 /* Legacy pillar card styles kept for compatibility */
@@ -433,11 +449,9 @@ h2 {
 .form-field.full { margin-bottom: 1rem; }
 
 .form-field label {
-  font-size: .8rem;
-  font-weight: 600;
+  font-size: .875rem;
+  font-weight: 500;
   color: var(--on-surface-2);
-  text-transform: uppercase;
-  letter-spacing: .04em;
 }
 
 .form-field input,
@@ -451,12 +465,18 @@ h2 {
   background: var(--surface);
   color: var(--on-surface);
   outline: none;
-  transition: border-color .15s;
+  transition: border-color .2s cubic-bezier(0.2, 0, 0, 1);
 }
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
   border-color: var(--blue);
+}
+.form-field input:focus-visible,
+.form-field select:focus-visible,
+.form-field textarea:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .form-field textarea { resize: vertical; }
@@ -678,4 +698,13 @@ h2 {
   .flow-arrow { display: none; }
   .step-indicator { top: auto; bottom: 1rem; }
   .about-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── REDUCED MOTION ─── */
+/* Respect user's OS-level "reduce motion" preference per Google a11y standards */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
 }
