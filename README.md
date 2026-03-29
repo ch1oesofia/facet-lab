@@ -5,6 +5,17 @@
 
 ---
 
+## Try It Now
+
+**No code required.** Open the [Facet Lab Web App](web/index.html) to design
+your council through a guided visual flow, then paste the generated instructions
+into Gemini Gems.
+
+For the **developer path** (CLI + VS Code + state management), see
+[Quick Start](#quick-start) below.
+
+---
+
 ## What Is This?
 
 Facet Lab is an **Agentic Kernel** — a local-first framework that lets you define a council of AI agents (powered by Gemini Gems), each with a clear role and domain, coordinated through a structured relay protocol.
@@ -191,6 +202,11 @@ facet-lab/
 │   ├── initialize_facet.py             # Bootstrap + deploy generation
 │   ├── bridge_engine.py                # Google Drive sync engine
 │   └── update_state.py                 # CLI state helper
+├── web/                                # ← WEB APP — no-code onboarding
+│   ├── index.html                      # Single-page guided flow
+│   ├── styles.css                      # Gemini-aligned design system
+│   ├── app.js                          # UI controller
+│   └── generator.js                    # Client-side deploy generation
 ├── .specify/                           # Spec Kit configuration
 ├── openspec/                           # OpenSpec configuration
 ├── _bmad/                              # BMAD Method module

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facet Lab — Design Your Inner Council</title>
+  <meta name="description" content="Build a personalized council of AI agents powered by Gemini Gems. No code required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ─── LANDING ─── -->
+  <section id="landing" class="step active">
+    <div class="hero">
+      <div class="sparkle-badge">✦</div>
+      <h1>Facet Lab</h1>
+      <p class="tagline">Your mind already has an Inner Council.<br>Give them a voice.</p>
+      <p class="subtitle">
+        Design a personalized team of AI agents — powered by
+        <strong>Gemini Gems</strong> — each responsible for a different
+        domain of your life. No code required.
+      </p>
+      <div class="hero-actions">
+        <button class="btn primary" onclick="app.goTo('discover')">Design Your Council</button>
+        <button class="btn ghost" onclick="app.goTo('about')">How It Works</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section id="about" class="step">
+    <div class="container narrow">
+      <button class="btn-back" onclick="app.goTo('landing')">← Back</button>
+      <h2>How It Works</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-icon">🧠</div>
+          <h3>The Idea</h3>
+          <p>
+            Psychology (Internal Family Systems) says your mind is composed of
+            distinct <em>parts</em> — each with its own voice and domain.
+            Pixar's <em>Inside Out</em> dramatized the same model: distinct
+            agents at a shared console.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">✦</div>
+          <h3>The Council</h3>
+          <p>
+            Facet Lab turns each part into a <strong>Gemini Gem</strong> —
+            a dedicated AI agent with a defined role, personality, and domain
+            boundary. One Orchestrator coordinates them all.
+          </p>
+        </div>
+        <div class="about-card">
+          <div class="about-icon">🔄</div>
+          <h3>The Relay</h3>
+          <p>
+            You chat with your Orchestrator, who delegates to specialist Gems.
+            You copy structured messages between them — the thinking is theirs,
+            the relay is yours.
+          </p>
+        </div>
+      </div>
+      <div class="about-flow">
+        <h3>The Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><span class="flow-num">1</span>Reflect on your life pillars</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span class="flow-num">2</span>Name &amp; design each agent</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span class="flow-num">3</span>Generate Gem instructions</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span class="flow-num">4</span>Paste into Gemini &amp; go</div>
+        </div>
+      </div>
+      <button class="btn primary" onclick="app.goTo('discover')">Get Started</button>
+    </div>
+  </section>
+
+  <!-- ─── STEP INDICATOR ─── -->
+  <div id="step-indicator" class="step-indicator hidden">
+    <div class="step-dot active" data-step="discover">1</div>
+    <div class="step-line"></div>
+    <div class="step-dot" data-step="design">2</div>
+    <div class="step-line"></div>
+    <div class="step-dot" data-step="generate">3</div>
+    <div class="step-line"></div>
+    <div class="step-dot" data-step="activate">4</div>
+  </div>
+
+  <!-- ─── STEP 1: DISCOVER ─── -->
+  <section id="discover" class="step">
+    <div class="container narrow">
+      <h2>Discover Your Parts</h2>
+      <p class="step-intro">
+        Think about the <strong>voices in your head</strong> that show up
+        during a typical week. Not emotions — life domains. The part that
+        worries about money. The part that pushes you to exercise. The part
+        that won't stop thinking about work.
+      </p>
+      <p class="step-hint">
+        Complete the sentence: <em>"The part of me that…"</em><br>
+        Add at least 2 pillars. Most people find 3–5.
+      </p>
+      <div id="pillars-list" class="pillars-list">
+        <!-- Pillar cards inserted by JS -->
+      </div>
+      <button class="btn ghost add-btn" onclick="app.addPillar()">+ Add Another Pillar</button>
+      <div class="step-actions">
+        <button class="btn ghost" onclick="app.goTo('landing')">Back</button>
+        <button class="btn primary" onclick="app.finishDiscover()">Next: Design Your Council</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STEP 2: DESIGN ─── -->
+  <section id="design" class="step">
+    <div class="container">
+      <h2>Design Your Council</h2>
+
+      <!-- Orchestrator -->
+      <div class="design-section">
+        <h3>✦ The Orchestrator</h3>
+        <p class="step-hint">
+          The calm center that coordinates everyone. Think <em>Baymax</em>
+          from Big Hero 6 — supportive, non-judgmental, always keeping the
+          big picture in view.
+        </p>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="orch-name">Name</label>
+            <input type="text" id="orch-name" placeholder="e.g. Atlas, Baymax, Sage">
+          </div>
+          <div class="form-field">
+            <label for="orch-style">Coordination Style</label>
+            <select id="orch-style">
+              <option value="">Choose…</option>
+              <option value="Stabilizer — calm, balance-focused">Stabilizer (calm, balanced)</option>
+              <option value="Commander — decisive, action-oriented">Commander (decisive, action-oriented)</option>
+              <option value="Advisor — analytical, options-based">Advisor (analytical, options-based)</option>
+              <option value="Companion — warm, supportive">Companion (warm, supportive)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field full">
+          <label for="orch-desc">Personality &amp; Description</label>
+          <textarea id="orch-desc" rows="3" placeholder="Describe how this agent thinks, speaks, and leads. What tone does it use?"></textarea>
+        </div>
+      </div>
+
+      <!-- Facets -->
+      <div class="design-section">
+        <h3>✦ Your Facets</h3>
+        <p class="step-hint">One agent per life pillar you identified.</p>
+        <div id="facets-design-list">
+          <!-- Facet design cards inserted by JS -->
+        </div>
+      </div>
+
+      <!-- Council Preview -->
+      <div class="design-section">
+        <h3>Council Preview</h3>
+        <div id="council-preview" class="council-preview">
+          <!-- Preview cards inserted by JS -->
+        </div>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn ghost" onclick="app.goTo('discover')">Back</button>
+        <button class="btn primary" onclick="app.finishDesign()">Generate My Council</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STEP 3: GENERATE ─── -->
+  <section id="generate" class="step">
+    <div class="container">
+      <h2>Your Council Is Ready</h2>
+      <p class="step-intro">
+        Each card below is a Gemini Gem. Copy the instructions and download
+        the knowledge file — then create each Gem at
+        <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a>.
+      </p>
+      <div id="gem-cards" class="gem-cards">
+        <!-- Gem cards inserted by JS -->
+      </div>
+      <div class="step-actions">
+        <button class="btn ghost" onclick="app.goTo('design')">Back to Edit</button>
+        <button class="btn primary" onclick="app.goTo('activate')">How to Activate →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── STEP 4: ACTIVATE ─── -->
+  <section id="activate" class="step">
+    <div class="container narrow">
+      <h2>Bring Them to Life</h2>
+      <p class="step-intro">Follow these steps for <strong>each Gem card</strong> above.</p>
+
+      <div class="activate-steps">
+        <div class="activate-step">
+          <div class="activate-num">1</div>
+          <div class="activate-content">
+            <h4>Open Gemini</h4>
+            <p>
+              Go to <a href="https://gemini.google.com" target="_blank" rel="noopener">gemini.google.com</a>
+              → click your profile → <strong>Gems</strong> → <strong>New Gem</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="activate-step">
+          <div class="activate-num">2</div>
+          <div class="activate-content">
+            <h4>Paste Instructions</h4>
+            <p>
+              Click <strong>"Copy Instructions"</strong> on the Gem card above.
+              Paste into the <strong>Instructions</strong> field in the Gem editor.
+            </p>
+          </div>
+        </div>
+        <div class="activate-step">
+          <div class="activate-num">3</div>
+          <div class="activate-content">
+            <h4>Upload Knowledge</h4>
+            <p>
+              Click <strong>"Download Knowledge"</strong> on the Gem card.
+              In the Gem editor, click <strong>Add files</strong> → upload the
+              downloaded <code>.md</code> file.
+            </p>
+          </div>
+        </div>
+        <div class="activate-step">
+          <div class="activate-num">4</div>
+          <div class="activate-content">
+            <h4>Save &amp; Repeat</h4>
+            <p>
+              Click <strong>Save</strong>. Repeat for every Gem in your council.
+            </p>
+          </div>
+        </div>
+        <div class="activate-step">
+          <div class="activate-num">5</div>
+          <div class="activate-content">
+            <h4>Start Talking</h4>
+            <p>
+              Open your <strong>Orchestrator Gem</strong> and give it a goal.
+              It will respond with a <em>Delegation Block</em> — copy it into
+              the target Facet's Gem. Copy the <em>Report Block</em> back.
+              That's the relay.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="finale">
+        <div class="sparkle-badge large">✦</div>
+        <h3>Your Inner Council is live.</h3>
+        <p>Start by telling your Orchestrator your first goal.</p>
+      </div>
+
+      <div class="step-actions">
+        <button class="btn ghost" onclick="app.goTo('generate')">← Back to Gems</button>
+        <button class="btn ghost" onclick="app.goTo('landing')">Start Over</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TOAST ─── -->
+  <div id="toast" class="toast hidden">Copied to clipboard!</div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
