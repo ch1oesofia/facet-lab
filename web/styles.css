@@ -438,6 +438,39 @@ h2 {
   margin-bottom: .5rem;
 }
 
+/* Orchestrator section — visually distinct from Facet cards */
+.design-section--orchestrator {
+  background: var(--gradient-soft);
+  border: 1.5px solid var(--blue);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.design-section--orchestrator::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
+  background: var(--gradient);
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.orch-badge {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--gradient);
+  color: white;
+  padding: .15rem .6rem;
+  border-radius: 100px;
+  margin-left: .6rem;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

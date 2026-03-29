@@ -54,6 +54,50 @@ const ROLE_SUGGESTIONS = {
   'Spirituality & Purpose':        'Mindfulness Guide',
 };
 
+// ─── Domain-specific UX hints ───
+
+// Description placeholders — show users exactly what to write for each domain
+const DESCRIPTION_HINTS = {
+  'Career & Professional Growth':  'e.g. I speak in candid, strategic terms. I push back on comfort zones and help map ambition to action. I notice patterns in career trajectory and ask the hard questions.',
+  'Personal Finance':              'e.g. I am precise and numbers-first. I track every dollar, flag anomalies, and translate financial data into clear decisions. I do not moralize — I report.',
+  'Health & Wellness':             'e.g. I am your caring but honest health partner. I celebrate progress, flag risks early, and help you build sustainable habits — not crash programs.',
+  'Calendar & Time Management':    'e.g. I am structured and systematic. I protect your time, surface conflicts before they happen, and help you design a week that matches your priorities.',
+  'Relationships & Social':        'e.g. I listen first. I help you navigate social complexity with empathy — drafting messages, preparing for hard conversations, and tracking commitments.',
+  'Learning & Personal Growth':    'e.g. I am curious and encouraging. I help you build a learning system, track what you are reading, and connect new ideas to your existing knowledge.',
+  'Creative Expression':           'e.g. I give your creative work permission and structure. I help with brainstorming, drafting, feedback cycles, and protecting time for creative practice.',
+  'Rest & Recovery':               'e.g. I am gentle and boundaried. I protect your downtime, surface signs of burnout before they hit, and help you design recovery into your schedule.',
+  'Home & Environment':            'e.g. I am practical and organized. I track what needs doing, help you plan purchases and projects, and keep your living space running smoothly.',
+  'Spirituality & Purpose':        'e.g. I hold space for reflection. I ask questions about values and meaning, help you recognize alignment or drift, and bring depth to your decisions.',
+};
+
+// Smart default extensions per domain
+const DEFAULT_EXTENSIONS = {
+  'Career & Professional Growth':  ['google_workspace', 'google_search'],
+  'Personal Finance':              ['google_workspace'],
+  'Health & Wellness':             ['google_search'],
+  'Calendar & Time Management':    ['google_calendar', 'google_workspace'],
+  'Relationships & Social':        ['google_workspace', 'google_calendar'],
+  'Learning & Personal Growth':    ['google_search', 'youtube'],
+  'Creative Expression':           ['google_workspace', 'youtube'],
+  'Rest & Recovery':               [],
+  'Home & Environment':            ['google_search', 'google_maps'],
+  'Spirituality & Purpose':        [],
+};
+
+// Suggested default personality per domain
+const DEFAULT_PERSONALITIES = {
+  'Career & Professional Growth':  'Direct and no-nonsense',
+  'Personal Finance':              'Analytical and data-driven',
+  'Health & Wellness':             'Warm and encouraging',
+  'Calendar & Time Management':    'Direct and no-nonsense',
+  'Relationships & Social':        'Warm and encouraging',
+  'Learning & Personal Growth':    'Creative and exploratory',
+  'Creative Expression':           'Creative and exploratory',
+  'Rest & Recovery':               'Calm and patient',
+  'Home & Environment':            'Direct and no-nonsense',
+  'Spirituality & Purpose':        'Calm and patient',
+};
+
 // ─── Navigation ───
 
 function goTo(sectionId) {
@@ -169,14 +213,15 @@ function finishDiscover() {
 
   state.pillars = selected;
 
-  // Pre-populate facets from pillars
+  // Pre-populate facets from pillars — with domain-appropriate defaults
   state.facets = selected.map(p => ({
     name: '',
     domain: p.domain,
     role: ROLE_SUGGESTIONS[p.domain] || deriveRole(p.domain),
+    personality: DEFAULT_PERSONALITIES[p.domain] || '',
     description: '',
     pillarText: p.label,
-    extensions: [],
+    extensions: [...(DEFAULT_EXTENSIONS[p.domain] || [])],
     data_scope: {},
     external_sources: [],
   }));
@@ -237,9 +282,9 @@ function renderDesignFacets() {
         </div>
       </div>
       <div class="form-field full">
-        <label>Description <span class="hint">(what does this agent do?)</span></label>
-        <textarea data-facet="${i}" data-field="description" rows="2"
-                  placeholder="How does this agent think and communicate?">${escapeHTML(f.description)}</textarea>
+        <label>Description <span class="hint">(how does this agent think and speak?)</span></label>
+        <textarea data-facet="${i}" data-field="description" rows="3"
+                  placeholder="${escapeAttr(DESCRIPTION_HINTS[f.domain] || `Describe how your ${f.domain} specialist thinks, speaks, and approaches problems.`)}">${escapeHTML(f.description)}</textarea>
       </div>
       <details class="data-access-details">
         <summary>Data Access ✦</summary>

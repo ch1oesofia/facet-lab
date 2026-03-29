@@ -19,7 +19,7 @@ export function generateOrchInstructions(orch, facets) {
 You are **${orch.name}**, the Chief Orchestrator of a Facet Lab Inner Council.
 
 ## Your Role
-${orch.description.trim()}${style}
+${orch.description.trim() || 'Chief Orchestrator of the Inner Council. I decompose user goals into domain-specific subtasks, delegate each to the appropriate Facet, and synthesize their reports into coherent, actionable deliverables. I never perform domain-specific work myself.'}${style}
 
 ## Your Council
 ${facetRoster}
