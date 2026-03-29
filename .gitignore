@@ -1,0 +1,21 @@
+# Facet Lab — Secrets & Generated Files
+credentials.json
+token.json
+ORCHESTRATOR_INSTRUCTIONS.txt
+deploy/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp

@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "last_sync": null,
+    "council_hash": null
+  },
+  "orchestrator": {
+    "active_goal": "",
+    "decisions": []
+  },
+  "facets": {
+    }
+  }
+}

@@ -1,0 +1,32 @@
+schema: spec-driven
+
+# Facet Lab — OpenSpec Configuration
+# OpenSpec governs iterative agent-level changes (add/modify/remove Facets)
+# after the core orchestrator scaffold is stable.
+
+context: |
+  Project: Facet Lab — Hierarchical Multi-Agent System (HMAS) framework
+  Architecture: Agentic Kernel with 3 layers (Lab / Memory / Runtime)
+    - The Lab: Local VS Code environment (spec authoring, code execution)
+    - The Memory: data/state.json synced to Google Drive via Python
+    - The Runtime: Gemini Gems grounded in Drive files
+  Tech stack: Python 3.13, YAML, Markdown, JSON, Google Drive API v3
+  Agent model: One Orchestrator + N Facets (specialist agents)
+  Config: config/council.yaml defines all agents
+  Specs: specs/facets/<name>.spec.md per Facet, generated from template
+  State: data/state.json is the shared memory contract
+  Manifesto: specs/manifesto.md is immutable (human-operator only)
+  Frameworks: BMAD Method (SDD lifecycle), Spec Kit (formal specs), OpenSpec (iteration)
+  Convention: Spec-first — no code without a ratified specification
+
+rules:
+  proposal:
+    - Each proposal MUST target exactly one Facet (add, modify, or remove)
+    - Proposal MUST reference the Facet's domain from config/council.yaml
+    - Proposal MUST NOT propose changes to specs/manifesto.md (immutable)
+  specs:
+    - Facet specs MUST be generated from specs/facets/abstract_facet.template.md
+    - Specs MUST declare BMAD role mapping and domain boundaries
+  tasks:
+    - Tasks MUST include council.yaml update, spec generation, state.json init, and Drive sync
+    - Tasks MUST flag any change that could affect orchestrator coordination logic
