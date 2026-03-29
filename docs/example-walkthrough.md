@@ -9,39 +9,29 @@
 
 ## Part 1 — Discover Your Pillars
 
-**Q1. The Voices**
+**Q1. Your Pillars**
 
-> 1. The part of me that won't stop thinking about work — career trajectory,
->    skills I should be building, whether I'm making the right professional moves
-> 2. The part of me that pushes me to exercise, tracks my sleep, and notices
->    when stress is piling up
-> 3. The part of me that tries to keep the week organized — catches scheduling
->    conflicts, tracks deadlines, figures out when things actually fit
-> 4. The part of me that worries about money — tracks spending, stresses about
->    debt, plans savings
+> - [x] **Career & Professional Growth**
+> - [x] **Personal Finance**
+> - [x] **Health & Wellness**
+> - [x] **Calendar & Scheduling**
 
-**Q2. Name the Domains**
+Four pillars — each matching a recurring "voice" from the creator's week.
+No Others needed; the standard selections covered everything.
 
-| "The part of me that..." | Domain |
-|---|---|
-| worries about career trajectory, skill gaps, professional moves | Career / Professional Growth |
-| pushes me to work out, tracks sleep, manages stress | Health & Wellness |
-| organizes the week, catches conflicts, tracks deadlines | Calendar & Scheduling |
-| worries about debt, tracks spending, plans savings | Finances |
+**Q2. Priority Check**
 
-**Q3. Priority Check**
-
-| Domain | Importance (1–5) | Satisfaction (1–5) |
+| Pillar | Importance (1–5) | Satisfaction (1–5) |
 |--------|:-:|:-:|
-| Career / Professional Growth | 5 | 3 |
+| Career & Professional Growth | 5 | 3 |
 | Health & Wellness | 4 | 2 |
 | Calendar & Scheduling | 4 | 2 |
-| Finances | 5 | 2 |
+| Personal Finance | 5 | 2 |
 
 All four are high-importance, low-satisfaction — which is why each became a
 Facet. There were no low-importance domains to cut.
 
-**Q4. Coverage Check**
+**Q3. Coverage Check**
 
 > - [x] Yes — these are my pillars
 
@@ -49,7 +39,7 @@ Facet. There were no low-importance domains to cut.
 
 ## Part 2 — Design the Orchestrator
 
-**Q5. Coordination Style**
+**Q4. Coordination Style**
 
 > - [x] **Stabilizer** — calm, grounding, balance-focused *(the Baymax model)*
 
@@ -58,11 +48,11 @@ scope-limitation ("I cannot deactivate until you say you are satisfied with
 your care"), persistence, and non-judgmental coordination — the exact
 properties an Orchestrator needs.
 
-**Q6. Orchestrator Name**
+**Q5. Orchestrator Name**
 
 > Name: **Baymax**
 
-**Q7. Orchestrator Description**
+**Q6. Orchestrator Description**
 
 > Baymax is the calm, integrative center of the Inner Council. He coordinates
 > all Facets, resolves conflicts between competing priorities, and ensures no
@@ -76,7 +66,9 @@ properties an Orchestrator needs.
 
 ### Facet 1 — Tony
 
-> **Domain**: Career / Professional Growth
+**Q7. Facet Profile**
+
+> **Domain**: Career & Professional Growth
 >
 > **Name**: Tony
 >
@@ -96,7 +88,7 @@ properties an Orchestrator needs.
 >
 > **Resonance check**: [x] Yes
 
-**Q8a — Tony's Data Access**
+**Q7a — Tony's Data Access**
 
 > **Extensions**: [x] Google Workspace, [x] Google Search
 >
@@ -115,6 +107,8 @@ properties an Orchestrator needs.
 > | Job boards (Indeed, Glassdoor) | Email arrives automatically | Job alert emails in Gmail |
 
 ### Facet 2 — Maddy
+
+**Q7. Facet Profile**
 
 > **Domain**: Health & Wellness
 >
@@ -137,7 +131,7 @@ properties an Orchestrator needs.
 >
 > **Resonance check**: [x] Yes
 
-**Q8a — Maddy's Data Access**
+**Q7a — Maddy's Data Access**
 
 > **Extensions**: [x] Google Workspace
 >
@@ -155,6 +149,8 @@ properties an Orchestrator needs.
 > | Instagram | Paste into chat | Wellness content or engagement insights |
 
 ### Facet 3 — Dora
+
+**Q7. Facet Profile**
 
 > **Domain**: Calendar & Scheduling
 >
@@ -177,7 +173,7 @@ properties an Orchestrator needs.
 >
 > **Resonance check**: [x] Yes
 
-**Q8a — Dora's Data Access**
+**Q7a — Dora's Data Access**
 
 > **Extensions**: [x] Google Workspace, [x] Google Calendar
 >
@@ -195,7 +191,9 @@ properties an Orchestrator needs.
 
 ### Facet 4 — Peso
 
-> **Domain**: Finances
+**Q7. Facet Profile**
+
+> **Domain**: Personal Finance
 >
 > **Name**: Peso
 >
@@ -217,7 +215,7 @@ properties an Orchestrator needs.
 >
 > **Resonance check**: [x] Yes
 
-**Q8a — Peso's Data Access**
+**Q7a — Peso's Data Access**
 
 > **Extensions**: [x] Google Workspace
 >
@@ -237,7 +235,7 @@ properties an Orchestrator needs.
 
 ## Part 4 — Validate the Council
 
-**Q9. Overlap Check**
+**Q8. Overlap Check**
 
 > - [x] Boundaries are clear
 
@@ -246,7 +244,7 @@ territory — and the Orchestrator (Baymax) is the designated arbiter for
 multi-domain conflicts like career burnout (Tony × Maddy) or health spending
 (Maddy × Peso).
 
-**Q10. Final Read**
+**Q9. Final Read**
 
 > - [x] This is my council
 

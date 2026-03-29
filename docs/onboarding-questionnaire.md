@@ -20,6 +20,10 @@ This questionnaire helps you **name those voices, give them roles, and turn
 them into Gemini Gems** that actually work together. The output is a populated
 `council.yaml` ready to bootstrap.
 
+Most questions offer **curated selections** so you don't start from a blank
+page. Pick what resonates, combine freely, or write your own — every question
+has an **Other** option.
+
 For a completed example, see the **[Example Walkthrough](example-walkthrough.md)** —
 the questionnaire answers that produced the original five-agent council
 (Baymax, Tony, Maddy, Dora, Peso). The resulting design is in the
@@ -29,48 +33,43 @@ the questionnaire answers that produced the original five-agent council
 
 ## Part 1 — Discover Your Pillars
 
-> *Think of your internal parts — not a checklist.*
+> *Pick the life domains that actually occupy your mental energy.*
 
-**Q1. The Voices**
+### Q1. Your Pillars
 
-Close your eyes for a moment. Think about the last week. What were the
-recurring concerns? What parts of you were "talking"?
+Select 3–7 pillars from the list below, or add your own. Each pillar becomes
+a candidate Facet (agent) in your council.
 
-Write them as "the part of me that..." statements:
+| | Pillar | What it covers |
+|---|---|---|
+| [ ] | **Career & Professional Growth** | Job search, skill-building, networking, promotions, side projects |
+| [ ] | **Personal Finance** | Budgeting, debt, saving, investing, expense tracking |
+| [ ] | **Health & Wellness** | Exercise, nutrition, sleep, stress management, medical |
+| [ ] | **Calendar & Scheduling** | Time management, deadlines, event planning, routine structure |
+| [ ] | **Relationships & Social** | Family, friendships, dating, social commitments, communication |
+| [ ] | **Learning & Personal Growth** | Reading, courses, hobbies, self-improvement, curiosity |
+| [ ] | **Creative Expression** | Writing, art, music, design, content creation |
+| [ ] | **Rest & Recovery** | Sleep hygiene, downtime, recharging, boundaries with work |
+| [ ] | **Home & Environment** | Living space, chores, organization, pets, moving |
+| [ ] | **Spirituality & Purpose** | Meditation, faith, meaning-making, values alignment |
+| [ ] | **Other**: _______________ | _______________ |
+| [ ] | **Other**: _______________ | _______________ |
 
-> 1. The part of me that _______________
-> 2. The part of me that _______________
-> 3. The part of me that _______________
-> 4. The part of me that _______________
-> 5. The part of me that _______________
-> 6. *(optional)* The part of me that _______________
-> 7. *(optional)* The part of me that _______________
+> **Example** *(the original council)*: Career & Professional Growth, Health &
+> Wellness, Calendar & Scheduling, Personal Finance — four pillars that matched
+> the four recurring "voices" in the creator's week.
 
-*Don't overthink it. Don't try to be comprehensive. What actually occupies
-your mind?*
+*Tip: If you're torn between two similar pillars (e.g., Health vs. Rest),
+try merging them first. You can always split later. Aim for distinct domains
+with minimal overlap.*
 
-**Q2. Name the Domains**
+### Q2. Priority Check
 
-Look at your list. Group related "parts" into domains — the life areas they
-belong to. Each domain is a candidate Facet.
+For each pillar you selected, rate two things on a 1–5 scale. This helps you
+decide which pillars deserve a dedicated Facet and which might be too
+low-priority to maintain.
 
-| "The part of me that..." | Domain |
-|--------------------------|--------|
-| *Example: worries about debt, tracks spending* | *Finances* |
-| *Example: pushes me to work out, tracks sleep* | *Health & Wellness* |
-| | |
-| | |
-| | |
-| | |
-
-Aim for 3–7 distinct domains. If two parts feel like the same domain, merge
-them. If one part spans two domains, it's probably two parts.
-
-**Q3. Priority Check**
-
-For each domain, rate two things on a 1–5 scale:
-
-| Domain | Importance (1–5) | Satisfaction (1–5) |
+| Pillar | Importance (1–5) | Satisfaction (1–5) |
 |--------|:-:|:-:|
 | | | |
 | | | |
@@ -78,15 +77,19 @@ For each domain, rate two things on a 1–5 scale:
 | | | |
 | | | |
 
-Domains that are **high importance + low satisfaction** need the most active
-guidance. Domains that are **high importance + high satisfaction** benefit from
-a maintenance agent. Low-importance domains probably don't need a Facet.
+> **Example**: Career (5/3), Health (4/2), Calendar (4/2), Finance (5/2) —
+> all high-importance + low-satisfaction, so all four became Facets.
 
-**Q4. Coverage Check**
+**How to read your scores**:
+- **High importance + Low satisfaction** → needs active guidance (strong Facet candidate)
+- **High importance + High satisfaction** → maintenance agent (lighter-touch Facet)
+- **Low importance** → probably doesn't need its own Facet
 
-> Is anything missing? Read your domains back. Together, do they cover
-> everything that actually occupies your mental energy?
->
+### Q3. Coverage Check
+
+Read your pillars back. Together, do they cover everything that actually
+occupies your mental energy?
+
 > - [ ] Yes — these are my pillars
 > - [ ] Missing: _______________
 
@@ -96,38 +99,54 @@ a maintenance agent. Low-importance domains probably don't need a Facet.
 
 > *The calm center that coordinates everything.*
 
-Think of **Baymax** from Big Hero 6: scope-limited, persistent, non-judgmental.
-He doesn't do the work — he makes sure the right agent does, and he doesn't
-stop until the human says they're satisfied. That's the Orchestrator archetype.
+The Orchestrator doesn't do domain work — it delegates to the right Facet,
+resolves conflicts between competing priorities, and keeps the big picture
+in focus. Think of it as the "best version of yourself in charge."
 
-Your Orchestrator doesn't need to be Baymax. But it should have the same
-structural qualities: it coordinates, it stabilizes, it doesn't pick favorites
-among your Facets.
+### Q4. Coordination Style
 
-**Q5. Coordination Style**
-
-> How should your Orchestrator talk to you and manage the council?
->
 > - [ ] **Stabilizer** — calm, grounding, balance-focused *(the Baymax model)*
 > - [ ] **Commander** — decisive, efficient, action-oriented
-> - [ ] **Advisor** — thoughtful, analytical, presents options
+> - [ ] **Advisor** — thoughtful, analytical, presents options before acting
 > - [ ] **Companion** — warm, encouraging, emotionally supportive
-> - [ ] **Custom**: _______________
+> - [ ] **Other**: _______________
 
-**Q6. Orchestrator Name**
+> **Example**: The original council uses **Stabilizer** — modeled after Baymax
+> from Big Hero 6. Scope-limited, persistent, non-judgmental. He doesn't do
+> the work; he makes sure the right agent does, and he doesn't stop until
+> the human says they're satisfied.
+
+### Q5. Orchestrator Name
 
 > Name: _______________
->
-> *Draw from fiction, mythology, personal meaning, or invention. The name
-> should feel like the "best version of yourself in charge." If nothing
-> comes to mind, consider: what character from a film, book, or story
-> embodies the coordination style you chose above?*
 
-**Q7. Orchestrator Description**
+Pick a name that feels like the "best version of yourself in charge." Draw
+from fiction, mythology, personal meaning, or invent one. Characters you
+already know work best — you import their behavioral template the moment
+you recognize them.
+
+| Source | Name ideas |
+|--------|-----------|
+| Film / TV | Baymax, Gandalf, Iroh, Morpheus, Alfred, JARVIS, Picard |
+| Mythology | Athena, Hermes, Minerva, Thoth |
+| Archetypes | Sage, Compass, Helm, Bridge, Atlas |
+| Invented | *Anything that feels right* |
+
+> **Example**: **Baymax** — chosen because the Big Hero 6 character embodies
+> the exact Stabilizer properties: scope-limitation, persistence, warmth
+> without judgment.
+
+### Q6. Orchestrator Description
 
 > In 1–3 sentences, what does this Orchestrator do?
 >
 > _______________________________________________________________
+
+> **Example**: *"Baymax is the calm, integrative center of the Inner Council.
+> He coordinates all Facets, resolves conflicts between competing priorities,
+> and ensures no single domain monopolizes attention. Warm but structured —
+> asks clarifying questions before acting and always defers domain-specific
+> work to the appropriate Facet."*
 
 **Quick resonance check**: Say the name out loud. Does it feel right? If you
 wince, try another. You'll be talking to this agent daily.
@@ -138,99 +157,151 @@ wince, try another. You'll be talking to this agent daily.
 
 > *Give each voice a name, a role, and a boundary.*
 
-Repeat this block for each domain from Q2. For a worked example, see how the
+Copy this block for each pillar from Q1. For a worked example, see how the
 [Example Council](example-council.md) defines Tony (Career), Maddy (Health),
 Dora (Calendar), and Peso (Finances).
 
-**Q8. Facet Profile** *(copy for each Facet)*
+### Q7. Facet Profile *(repeat for each Facet)*
 
-> **Domain**: _______________ *(from Q2)*
->
-> **Name**: _______________
-> *What do you call this voice? Draw from fiction, personal meaning, or
-> invention. Characters you already know work best — you'll trust them
-> faster because you already "know" how they behave.*
->
-> **Role title**: _______________
-> *Job title. (e.g., "Health Coach", "Financial Strategist", "Schedule Keeper")*
->
-> **Domain boundary**: _______________
-> *One sentence: what is IN scope and what is OUT? Think about where this
-> Facet's domain ends and another Facet's begins.*
->
-> **Personality**:
+**Domain**: _______________ *(from Q1)*
+
+**Name**: _______________
+
+Pick a name for this voice. Characters you already know work best — you'll
+trust them faster because you already "know" how they behave.
+
+| Domain | Name ideas (from fiction, archetypes, meaning) |
+|--------|-----------------------------------------------|
+| Career | Tony (Stark), Miranda (Priestly), Harvey (Specter), Forge, Scout |
+| Finance | Peso (Peppa Pig), Scrooge, Mint, Vault, Ledger |
+| Health | Maddy (Perez), Rocky, Vitala, Coach, Pulse |
+| Calendar | Dora (the Explorer), Tempo, Clio, Sage, Keeper |
+| Relationships | Joy (Inside Out), Hearth, Bond, Luna, Haven |
+| Learning | Hermione, Curiosa, Neo, Beacon, Lumen |
+| Creative | Muse, Frida, Sketch, Lyra, Bloom |
+| Rest | Olaf, Serene, Harbor, Drift, Willow |
+
+**Role Title**: _______________
+
+A job title that clarifies function:
+
+| | Role title | Good for |
+|---|---|---|
+| [ ] | Health Coach | Fitness, nutrition, habit tracking |
+| [ ] | Financial Strategist | Budgeting, saving, debt planning |
+| [ ] | Career Strategist | Job search, skill gaps, networking |
+| [ ] | Schedule Keeper | Calendar, deadlines, time blocks |
+| [ ] | Relationship Advisor | Communication, social planning |
+| [ ] | Learning Guide | Study plans, reading lists, courses |
+| [ ] | Creative Director | Projects, brainstorms, inspiration |
+| [ ] | Wellness Guardian | Sleep, stress, rest, recharging |
+| [ ] | Other: _______________ | _______________ |
+
+**Domain Boundary** *(one sentence — what is IN scope and what is OUT)*:
+
+> _______________________________________________________________
+
+> **Example** *(Tony)*: *"Professional life only. Health impacts from overwork
+> → Maddy. Schedule conflicts → Dora. Financial implications of career
+> decisions → Peso. Tony flags cross-domain impacts but does not resolve them."*
+
+**Personality**:
+
 > - [ ] Direct and no-nonsense
 > - [ ] Warm and encouraging
 > - [ ] Analytical and data-driven
 > - [ ] Creative and exploratory
-> - [ ] Custom: _______________
->
-> **Description** (1–3 sentences):
-> *What does this agent do? What does it produce?*
->
+> - [ ] Tough-love motivator
+> - [ ] Calm and patient
+> - [ ] Other: _______________
+
+**Description** *(1–3 sentences — what does this agent do?)*:
+
 > _______________________________________________________________
->
-> **Closest BMAD role**:
-> - [ ] Business Analyst (research, requirements, analysis)
-> - [ ] Developer (building, implementation, technical work)
-> - [ ] UX Designer (design, user experience, aesthetics)
-> - [ ] Product Manager (planning, prioritization, roadmap)
-> - [ ] Tech Writer (documentation, communication, knowledge)
-> - [ ] Specialist (none of the above)
->
-> **Resonance check**: Does this name + personality feel like *yours*?
-> Would you enjoy talking to this agent?
+
+> **Example** *(Tony)*: *"Tony handles professional development — skill
+> acquisition, goal setting, networking strategy, project prioritization,
+> and career trajectory planning. Direct and results-oriented."*
+
+**Closest BMAD Role**:
+
+> - [ ] Business Analyst *(research, requirements, analysis)*
+> - [ ] Developer *(building, implementation, technical work)*
+> - [ ] UX Designer *(design, user experience, aesthetics)*
+> - [ ] Product Manager *(planning, prioritization, roadmap)*
+> - [ ] Tech Writer *(documentation, communication, knowledge)*
+> - [ ] Specialist *(none of the above)*
+
+**Resonance Check**: Does this name + personality feel like *yours*?
+Would you enjoy talking to this agent?
+
 > - [ ] Yes
 > - [ ] No — rethink: _______________
 
-**Q8a. Data Access** *(for each Facet)*
+### Q7a. Data Access *(for each Facet)*
 
-> **Gemini Extensions**: Which Google tools does this Facet need?
+**Gemini Extensions** — which Google tools does this Facet need?
+
 > - [ ] Google Workspace (Gmail, Sheets, Drive, Docs)
 > - [ ] Google Calendar
 > - [ ] Google Search
 > - [ ] Google Maps
 > - [ ] YouTube
->
-> **Data Scope**: Within those extensions, what specifically should this
-> Facet access? Be precise — this creates isolation between agents.
->
-> | Extension | What to access | What to ignore |
-> |-----------|---------------|----------------|
-> | Gmail     | _______________| _______________|
-> | Sheets    | _______________| _______________|
-> | Calendar  | _______________| _______________|
-> | Drive     | _______________| _______________|
-> | Search    | _______________| _______________|
->
-> **External Apps**: What non-Google apps feed data into this domain?
->
-> | App | How data enters | Format |
-> |-----|----------------|--------|
-> | ___ | [ ] Email arrives automatically / [ ] Paste into chat / [ ] Import to Sheet | ___ |
-> | ___ | [ ] Email arrives automatically / [ ] Paste into chat / [ ] Import to Sheet | ___ |
->
-> *If the app already emails you summaries (gym receipts, bank alerts,
-> job notifications), choose "Email arrives automatically" — zero effort.*
+
+**Data Scope** — within those extensions, what specifically should this
+Facet access? Be precise — this creates isolation between agents.
+
+| Extension | What to access | What to ignore |
+|-----------|---------------|----------------|
+| Gmail     | _______________| _______________|
+| Sheets    | _______________| _______________|
+| Calendar  | _______________| _______________|
+| Drive     | _______________| _______________|
+| Search    | _______________| _______________|
+
+> **Example** *(Peso)*: Gmail → "Bank alerts, transaction receipts, billing
+> notifications" / Ignore → "Job alerts, calendar invites, social emails."
+> Sheets → "Facet Lab — Peso" / Ignore → all other sheets.
+
+**External Apps** — what non-Google apps feed data into this domain?
+
+| App | How data enters | Format |
+|-----|----------------|--------|
+| ___ | [ ] Email arrives automatically / [ ] Paste into chat / [ ] Import to Sheet / [ ] Automation (IFTTT/Zapier) | ___ |
+| ___ | [ ] Email arrives automatically / [ ] Paste into chat / [ ] Import to Sheet / [ ] Automation (IFTTT/Zapier) | ___ |
+
+Common examples by domain:
+
+| Domain | App | Typical ingest method |
+|--------|-----|----------------------|
+| Finance | Banking app, Mint | email_forward (alerts) or sheet_import (CSV) |
+| Health | Fitbit, MyFitnessPal, Wellhub | email_forward (summaries) or paste |
+| Career | LinkedIn, Indeed | email_forward (job alerts) or paste (profiles) |
+| Calendar | TickTick, Todoist | paste (task lists) |
+| Home | Smart home apps (Vesync, Hue) | paste (device readings) |
 
 ---
 
 ## Part 4 — Validate the Council
 
-**Q9. Overlap Check**
+### Q8. Overlap Check
 
-> For each pair of Facets, can you clearly say "this goes to A, that goes
-> to B"? If two Facets would both claim a task, their boundary needs work.
->
+For each pair of Facets, can you clearly say "this goes to A, that goes
+to B"? If two Facets would both claim a task, their boundary needs work.
+
 > - [ ] Boundaries are clear
 > - [ ] Overlap between _______________ and _______________
 >   - Resolution: _______________
 
-**Q10. Final Read**
+> **Example**: Career and Finance overlap on "salary negotiation." Resolution:
+> Tony handles the negotiation strategy; Peso handles the financial analysis
+> of the offer. The Orchestrator routes each part to the right Facet.
 
-> Read the full council — Orchestrator name and description, then each
-> Facet's name, role, and boundary. This is your team.
->
+### Q9. Final Read
+
+Read the full council — Orchestrator name and description, then each
+Facet's name, role, and boundary. This is your team.
+
 > - [ ] This is my council
 > - [ ] Something feels off: _______________
 
@@ -242,9 +313,11 @@ Translate your answers into `config/council.yaml`:
 
 | Answer | Maps To |
 |--------|---------|
-| Q6 (name) | `orchestrator.name` |
-| Q7 (description) | `orchestrator.description` |
-| Q8 (per Facet) | `facets[]` entries: name, domain, role, bmad_role, description || Q8a (per Facet) | `facets[]` entries: extensions, data_scope, external_sources |
+| Q5 (name) | `orchestrator.name` |
+| Q6 (description) | `orchestrator.description` |
+| Q7 (per Facet) | `facets[]` entries: name, domain, role, bmad_role, description |
+| Q7a (per Facet) | `facets[]` entries: extensions, data_scope, external_sources |
+
 Then run:
 
 ```bash
