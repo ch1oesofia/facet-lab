@@ -687,6 +687,12 @@ h2 {
 }
 
 /* ─── RESPONSIVE ─── */
+/* Push wizard step content below the fixed step indicator (≈68px tall + 16px shadow at top:1.5rem) */
+#discover .container,
+#design .container,
+#generate .container,
+#activate .container { padding-top: 7rem; }
+
 @media (max-width: 640px) {
   .hero h1 { font-size: 2.25rem; }
   .tagline { font-size: 1.1rem; }
@@ -698,6 +704,11 @@ h2 {
   .flow-arrow { display: none; }
   .step-indicator { top: auto; bottom: 1rem; }
   .about-grid { grid-template-columns: 1fr; }
+  /* On mobile the indicator moves to the bottom — restore default top padding */
+  #discover .container,
+  #design .container,
+  #generate .container,
+  #activate .container { padding-top: 2rem; }
 }
 
 /* ─── REDUCED MOTION ─── */
