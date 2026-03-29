@@ -173,7 +173,7 @@ function finishDiscover() {
   state.facets = selected.map(p => ({
     name: '',
     domain: p.domain,
-    role: ROLE_SUGGESTIONS[p.domain] || '',
+    role: ROLE_SUGGESTIONS[p.domain] || deriveRole(p.domain),
     description: '',
     pillarText: p.label,
     extensions: [],
@@ -219,15 +219,21 @@ function renderDesignFacets() {
         </div>
         <div class="form-field">
           <label>Personality</label>
-          <select data-facet="${i}" data-field="personality">
+          <select data-facet="${i}" data-field="personality"
+                  onchange="app.toggleOtherInput('personality-other-${i}', this.value === 'Other')">
             <option value="">Choose…</option>
-            <option value="Direct and no-nonsense" ${f.personality === 'Direct and no-nonsense' ? 'selected' : ''}>Direct & no-nonsense</option>
-            <option value="Warm and encouraging" ${f.personality === 'Warm and encouraging' ? 'selected' : ''}>Warm & encouraging</option>
-            <option value="Analytical and data-driven" ${f.personality === 'Analytical and data-driven' ? 'selected' : ''}>Analytical & data-driven</option>
-            <option value="Creative and exploratory" ${f.personality === 'Creative and exploratory' ? 'selected' : ''}>Creative & exploratory</option>
+            <option value="Direct and no-nonsense" ${f.personality === 'Direct and no-nonsense' ? 'selected' : ''}>Direct &amp; no-nonsense</option>
+            <option value="Warm and encouraging" ${f.personality === 'Warm and encouraging' ? 'selected' : ''}>Warm &amp; encouraging</option>
+            <option value="Analytical and data-driven" ${f.personality === 'Analytical and data-driven' ? 'selected' : ''}>Analytical &amp; data-driven</option>
+            <option value="Creative and exploratory" ${f.personality === 'Creative and exploratory' ? 'selected' : ''}>Creative &amp; exploratory</option>
             <option value="Tough-love motivator" ${f.personality === 'Tough-love motivator' ? 'selected' : ''}>Tough-love motivator</option>
-            <option value="Calm and patient" ${f.personality === 'Calm and patient' ? 'selected' : ''}>Calm & patient</option>
+            <option value="Calm and patient" ${f.personality === 'Calm and patient' ? 'selected' : ''}>Calm &amp; patient</option>
+            <option value="Other">Other…</option>
           </select>
+          <input type="text" id="personality-other-${i}"
+                 placeholder="Describe this agent's personality…"
+                 style="display:none;margin-top:.5rem"
+                 data-facet="${i}" data-field="personality">
         </div>
       </div>
       <div class="form-field full">
@@ -278,6 +284,14 @@ function renderDesignFacets() {
       const field = e.target.dataset.field;
       if (field === 'external_raw') {
         state.facets[idx].external_sources = parseExternalSources(e.target.value);
+      } else if (field === 'personality' && e.target.tagName === 'SELECT' && e.target.value !== 'Other') {
+        // When a named option is picked, clear any free-text and use the option value
+        state.facets[idx][field] = e.target.value;
+        const otherInput = document.getElementById(`personality-other-${idx}`);
+        if (otherInput) otherInput.value = '';
+      } else if (field === 'personality' && e.target.tagName === 'INPUT') {
+        // Free-text personality — use what the user typed
+        state.facets[idx][field] = e.target.value;
       } else {
         state.facets[idx][field] = e.target.value;
       }
@@ -475,6 +489,16 @@ function parseExternalSources(raw) {
 
 // ─── Utilities ───
 
+// Derive a sensible role title from a free-text domain name.
+// e.g. "Travel & Adventure" → "Travel & Adventure Specialist"
+function deriveRole(domain) {
+  if (!domain || !domain.trim()) return 'Specialist';
+  const d = domain.trim();
+  // If it already ends with a role-sounding word, use as-is
+  if (/advisor|coach|guide|manager|director|keeper|guardian|strategist|specialist$/i.test(d)) return d;
+  return d + ' Specialist';
+}
+
 function escapeHTML(str) {
   const div = document.createElement('div');
   div.textContent = str;
@@ -544,9 +568,25 @@ function init() {
   });
 }
 
+// ─── Other-input reveal helpers ───
+
+function toggleOtherInput(inputId, show) {
+  const el = document.getElementById(inputId);
+  if (el) el.style.display = show ? 'block' : 'none';
+  if (!show && el) el.value = '';
+}
+
+function syncOtherInput(selectId, value) {
+  // Write the free-text value back into the corresponding state field
+  if (selectId === 'orch-style') {
+    state.orchestrator.style = value;
+    updatePreview();
+  }
+}
+
 // ─── Public API ───
 
-const app = { goTo, addCustomPillar, finishDiscover, finishDesign };
+const app = { goTo, addCustomPillar, finishDiscover, finishDesign, toggleOtherInput, syncOtherInput };
 window.app = app;
 
 init();

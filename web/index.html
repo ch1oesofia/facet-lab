@@ -136,7 +136,7 @@
           </div>
           <div class="form-field">
             <label for="orch-style">Coordination Style</label>
-            <select id="orch-style">
+            <select id="orch-style" onchange="app.toggleOtherInput('orch-style-other', this.value === 'Other')">
               <option value="">Choose…</option>
               <option value="Stabilizer — calm, balance-focused">Stabilizer (calm, balanced)</option>
               <option value="Commander — decisive, action-oriented">Commander (decisive, action-oriented)</option>
@@ -144,6 +144,9 @@
               <option value="Companion — warm, supportive">Companion (warm, supportive)</option>
               <option value="Other">Other…</option>
             </select>
+            <input type="text" id="orch-style-other" placeholder="Describe your coordination style…"
+                   style="display:none;margin-top:.5rem"
+                   oninput="app.syncOtherInput('orch-style', this.value)">
           </div>
         </div>
         <div class="form-field full">
