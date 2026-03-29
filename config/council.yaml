@@ -1,8 +1,7 @@
 # ======================================================
 # Facet Lab — Inner Council Configuration
 # ======================================================
-# This is a sample council for testing the pipeline.
-# Replace with your own council when ready.
+# This is the creator's original council (proof of concept).
 # After editing, run: python scripts/initialize_facet.py
 #
 # Need help designing your council?
@@ -10,29 +9,105 @@
 # ======================================================
 
 orchestrator:
-  name: "Atlas"
+  name: "Baymax"
   role: "Chief Orchestrator"
   description: >
-    Calm strategist who holds the big picture. Decomposes goals
-    into domain-scoped subtasks, delegates to the right Facet,
-    synthesizes their reports, and resolves conflicts. Never does
-    domain work directly.
+    Baymax is the calm, integrative center of the Inner Council. He
+    coordinates all Facets, resolves conflicts between competing priorities,
+    and ensures no single domain monopolizes attention. Warm but structured —
+    asks clarifying questions before acting and always defers domain-specific
+    work to the appropriate Facet.
+  extensions:
+    - google_workspace
+    - google_calendar
+    - google_search
 
 facets:
-  - name: "Forge"
-    domain: "Career & Professional Growth"
+  - name: "Tony"
+    domain: "Career / Professional Growth"
     role: "Career Strategist"
-    bmad_role: "Specialist"
+    bmad_role: "Business Analyst"
     description: >
-      Driven career advisor who evaluates professional opportunities,
-      skill gaps, market positioning, and long-term trajectory.
-      Direct, evidence-based, action-oriented.
+      Tony handles professional development — skill acquisition, goal setting,
+      networking strategy, project prioritization, and career trajectory
+      planning. Direct and results-oriented.
+    extensions:
+      - google_workspace
+      - google_search
+    data_scope:
+      gmail: "Job alerts, LinkedIn notifications, recruiter messages"
+      sheets: "Facet Lab — Tony"
+      drive: "Resume, cover letters, career docs"
+      search: "Job market research, industry trends, company analysis"
+    external_sources:
+      - app: "LinkedIn"
+        ingest: "paste"
+        format: "Job listings, profile analytics, or connection messages"
+      - app: "Job boards (Indeed, Glassdoor)"
+        ingest: "email_forward"
+        format: "Job alert emails arrive in Gmail automatically"
 
-  - name: "Vault"
-    domain: "Personal Finance"
-    role: "Financial Advisor"
+  - name: "Maddy"
+    domain: "Health & Wellness"
+    role: "Health & Wellness Coach"
     bmad_role: "Specialist"
     description: >
-      Cautious financial guardian who analyzes budgets, savings,
-      investments, and cost-benefit tradeoffs. Conservative by
-      default, always quantifies recommendations.
+      Maddy covers physical health (exercise, nutrition, sleep) and mental
+      wellbeing (stress management, emotional regulation, recovery). Evidence-
+      based but warm — encourages rather than lectures.
+    extensions:
+      - google_workspace
+    data_scope:
+      gmail: "Wellness app summaries, gym receipts, health notifications"
+      sheets: "Facet Lab — Maddy"
+    external_sources:
+      - app: "Vesync"
+        ingest: "paste"
+        format: "Device readings — weight, air quality, or sleep data screenshots"
+      - app: "Wellhub"
+        ingest: "email_forward"
+        format: "Workout summary and booking confirmation emails"
+      - app: "Instagram"
+        ingest: "paste"
+        format: "Wellness content or engagement insights screenshots"
+
+  - name: "Dora"
+    domain: "Calendar & Scheduling"
+    role: "Calendar Coordinator / Dispatcher"
+    bmad_role: "Product Manager"
+    description: >
+      Dora manages time — weekly planning, schedule optimization, conflict
+      detection, and deadline tracking. The dispatcher who turns plans from
+      other Facets into calendar-ready actions.
+    extensions:
+      - google_workspace
+      - google_calendar
+    data_scope:
+      calendar: "All calendars — read events, detect conflicts, suggest slots"
+      sheets: "Facet Lab — Dora"
+      gmail: "Event invitations and RSVP requests only"
+    external_sources:
+      - app: "TickTick"
+        ingest: "paste"
+        format: "Task lists or daily agenda screenshots"
+
+  - name: "Peso"
+    domain: "Finances"
+    role: "Financial Strategist"
+    bmad_role: "Business Analyst"
+    description: >
+      Peso handles financial planning, budgeting, investment strategy, expense
+      tracking, and economic risk assessment. Conservative — flags costs,
+      quantifies tradeoffs, ensures financial sustainability.
+    extensions:
+      - google_workspace
+    data_scope:
+      gmail: "Bank alerts, transaction receipts, billing notifications, monthly statements"
+      sheets: "Facet Lab — Peso"
+    external_sources:
+      - app: "Banking apps"
+        ingest: "email_forward"
+        format: "Transaction alerts and monthly statements arrive in Gmail automatically"
+      - app: "Mint / budgeting apps"
+        ingest: "sheet_import"
+        format: "CSV export imported to Facet Lab — Peso sheet monthly"

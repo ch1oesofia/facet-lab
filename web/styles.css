@@ -404,6 +404,44 @@ h2 {
   color: var(--blue-dark);
 }
 
+/* Data Access collapsible */
+.data-access-details {
+  margin-top: .75rem;
+  border-top: 1px solid var(--outline);
+  padding-top: .75rem;
+}
+.data-access-details summary {
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--violet);
+  cursor: pointer;
+  user-select: none;
+}
+.data-access-inner {
+  margin-top: .75rem;
+}
+.ext-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem .75rem;
+}
+.ext-opt {
+  font-size: .82rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  cursor: pointer;
+}
+.ext-opt input[type="checkbox"] {
+  accent-color: var(--blue);
+}
+.hint {
+  font-weight: 400;
+  color: var(--on-surface-2);
+  font-size: .78rem;
+}
+
 /* ─── COUNCIL PREVIEW ─── */
 .council-preview {
   display: grid;

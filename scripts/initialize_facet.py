@@ -59,6 +59,35 @@ def generate_facet_spec(facet, template):
     spec = spec.replace("{{BMAD_ROLE}}", facet.get("bmad_role", "Specialist"))
     spec = spec.replace("{{CREATED_DATE}}", datetime.date.today().isoformat())
 
+    # Data access contract fields
+    extensions = facet.get("extensions", [])
+    ext_names = {"google_workspace": "Google Workspace (Gmail, Sheets, Drive, Docs)",
+                 "google_calendar": "Google Calendar",
+                 "google_search": "Google Search",
+                 "google_maps": "Google Maps",
+                 "youtube": "YouTube"}
+    ext_text = "\n".join(f"- {ext_names.get(e, e)}" for e in extensions) if extensions else "- None declared"
+    spec = spec.replace("{{EXTENSIONS}}", ext_text)
+
+    data_scope = facet.get("data_scope", {})
+    scope_text = "\n".join(f"- **{k.title()}**: {v}" for k, v in data_scope.items()) if data_scope else "- No specific scope declared"
+    spec = spec.replace("{{DATA_SCOPE}}", scope_text)
+
+    external_sources = facet.get("external_sources", [])
+    if external_sources:
+        src_lines = []
+        for src in external_sources:
+            ingest_label = {"paste": "User pastes into chat",
+                           "email_forward": "Emails arrive in Gmail automatically",
+                           "sheet_import": "User imports to Google Sheet",
+                           "automation": "Automated writes to Google Sheet"
+                           }.get(src.get("ingest", ""), src.get("ingest", ""))
+            src_lines.append(f"- **{src.get('app', 'Unknown')}**: {ingest_label}. Format: {src.get('format', 'Any')}")
+        src_text = "\n".join(src_lines)
+    else:
+        src_text = "- None declared"
+    spec = spec.replace("{{EXTERNAL_SOURCES}}", src_text)
+
     out_path = SPECS_DIR / f"{name_lower}.spec.md"
     out_path.write_text(spec)
     print(f"  Generated spec: specs/facets/{name_lower}.spec.md")
@@ -97,6 +126,100 @@ def _read_file(path):
     return path.read_text() if path.exists() else ""
 
 
+def _build_data_access_section(facet):
+    """Build the Data Access Contract section for a Facet's instructions."""
+    extensions = facet.get("extensions", [])
+    data_scope = facet.get("data_scope", {})
+    external_sources = facet.get("external_sources", [])
+
+    if not extensions and not data_scope and not external_sources:
+        return "\n"
+
+    lines = ["\n## Data Access Contract\n"]
+
+    if extensions:
+        ext_names = {"google_workspace": "Google Workspace (Gmail, Sheets, Drive, Docs)",
+                     "google_calendar": "Google Calendar",
+                     "google_search": "Google Search",
+                     "google_maps": "Google Maps",
+                     "youtube": "YouTube"}
+        lines.append("**Extensions to enable on this Gem:**\n")
+        for ext in extensions:
+            lines.append(f"- {ext_names.get(ext, ext)}")
+        lines.append("")
+
+    if data_scope:
+        lines.append("**Data Scope (what you may access):**\n")
+        for key, value in data_scope.items():
+            lines.append(f"- **{key.title()}**: {value}")
+        lines.append("")
+        lines.append("**Out of Scope**: Do not access data outside the scope above.")
+        lines.append("If a request requires data from another Facet's domain,")
+        lines.append("set STATUS to `partial` and note the cross-domain need.\n")
+
+    if external_sources:
+        lines.append("**External Data Sources:**\n")
+        for src in external_sources:
+            ingest_label = {"paste": "User pastes into chat",
+                           "email_forward": "Emails arrive in Gmail automatically",
+                           "sheet_import": "User imports to your Google Sheet",
+                           "automation": "Automated writes to your Google Sheet"
+                           }.get(src.get("ingest", ""), src.get("ingest", ""))
+            lines.append(f"- **{src.get('app', 'Unknown')}**: {ingest_label}. Format: {src.get('format', 'Any')}")
+        lines.append("")
+
+    lines.append("**Validation Rules:**\n")
+    lines.append("1. **Source Citation**: Every factual claim must cite its source — `[Gmail]`, `[Sheet]`, `[Calendar]`, `[Pasted]`, or `[Search]`. If no source exists, say \"I don't have data for that.\"")
+    lines.append("2. **Confidence Tiering**: Label claims as **Verified** (read from source), **Inferred** (derived from verified data), or **Assumed** (user statement, unverified).")
+    lines.append("3. **Input Validation**: When reading Sheets or pasted data, flag missing fields, impossible values, and format inconsistencies. Ask the user to correct before proceeding.\n")
+
+    return "\n".join(lines)
+
+
+def _build_orch_data_access_section(council):
+    """Build the Data Access section for the Orchestrator's instructions."""
+    orch = council.get("orchestrator", {})
+    facets = council.get("facets", [])
+
+    # Union of all extensions
+    all_extensions = set(orch.get("extensions", []))
+    for f in facets:
+        all_extensions.update(f.get("extensions", []))
+
+    if not all_extensions:
+        return "\n"
+
+    ext_names = {"google_workspace": "Google Workspace (Gmail, Sheets, Drive, Docs)",
+                 "google_calendar": "Google Calendar",
+                 "google_search": "Google Search",
+                 "google_maps": "Google Maps",
+                 "youtube": "YouTube"}
+
+    lines = ["\n## Data Access\n"]
+    lines.append("You have cross-domain read access for verification and synthesis.\n")
+    lines.append("**Extensions to enable on this Gem:**\n")
+    for ext in sorted(all_extensions):
+        lines.append(f"- {ext_names.get(ext, ext)}")
+    lines.append("")
+
+    # List each Facet's scope for Orchestrator awareness
+    lines.append("**Facet Data Scopes** (for cross-domain synthesis):\n")
+    for f in facets:
+        scope = f.get("data_scope", {})
+        if scope:
+            scope_items = ", ".join(f"{k}: {v}" for k, v in scope.items())
+            lines.append(f"- **{f['name']}**: {scope_items}")
+    lines.append("")
+
+    lines.append("**Validation Rules:**\n")
+    lines.append("1. **Source Citation**: Every claim must cite `[Gmail]`, `[Sheet]`, `[Calendar]`, `[Pasted]`, or `[Search]`.")
+    lines.append("2. **Confidence Tiering**: Verified / Inferred / Assumed labels on all claims.")
+    lines.append("3. **Input Validation**: Flag missing fields, impossible values, format issues.")
+    lines.append("4. When a Facet report lacks citations, request clarification before incorporating.\n")
+
+    return "\n".join(lines)
+
+
 def generate_orchestrator_deploy(council):
     """Generate the Orchestrator Gem's deploy package."""
     orch = council["orchestrator"]
@@ -110,6 +233,9 @@ def generate_orchestrator_deploy(council):
     )
 
     facet_names = ", ".join(f["name"] for f in facets)
+
+    # Build orchestrator data access (union of all facet extensions)
+    orch_data_access = _build_orch_data_access_section(council)
 
     # --- instructions.md (paste into Gem instruction field) ---
     instructions = f"""# {name} — Orchestrator
@@ -129,7 +255,7 @@ You are **{name}**, the Chief Orchestrator of a Facet Lab Inner Council.
 3. Wait for the user to bring back each Facet's Report Block.
 4. Synthesize all reports into a coherent deliverable.
 5. Never perform domain-specific work yourself — always delegate.
-
+{orch_data_access}
 ## Relay Protocol — Delegation
 
 When you need a Facet to do work, output this exact block so the user can
@@ -241,6 +367,9 @@ def generate_facet_deploy(facet, council):
         if f["name"] != name
     )
 
+    # Build data access section
+    data_access = _build_data_access_section(facet)
+
     # --- instructions.md ---
     instructions = f"""# {name} — {role}
 
@@ -258,7 +387,7 @@ Your domain is **{domain}**. You report to {orch_name} (the Orchestrator).
 
 ## Sibling Facets (for awareness only — do not do their work)
 {sibling_list if sibling_list else "  (none yet)"}
-
+{data_access}
 ## Relay Protocol — Receiving Delegations
 
 The user will paste a Delegation Block from {orch_name}:

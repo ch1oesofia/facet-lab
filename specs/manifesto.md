@@ -145,8 +145,60 @@ This document may only be amended by the human operator. No agent, script, or au
 ## Article V — Security & Boundaries
 
 1. **Credential Isolation**: `credentials.json` must never be committed to version control. It is listed in `.gitignore` by default.
-2. **Scope Enforcement**: Agents must not access external APIs or services beyond Google Drive unless explicitly authorized in their spec.
+2. **Scope Enforcement**: Agents must not access data sources outside those declared in their Data Access Contract (see §5-A).
 3. **Human Override**: The human operator may override any Facet or Orchestrator decision at any time. The system serves the operator, not the other way around.
+
+---
+
+## Article V-A — Data Access Governance
+
+### §5-A.1 The Data Access Contract
+
+Each Facet declares a **Data Access Contract** in `council.yaml` that specifies:
+
+1. **Extensions** — which Gemini extensions to enable on this Gem (e.g., `google_workspace`, `google_calendar`, `google_search`).
+2. **Data Scope** — within enabled extensions, what the Gem may access (e.g., "Gmail: financial alerts only", "Sheets: Facet Lab — Peso").
+3. **External Sources** — non-Google apps whose data may enter the Gem's scope, and the approved ingest method.
+
+The Orchestrator's Data Access Contract is the **union** of all Facet extensions plus cross-domain read access, because it must verify and synthesize across domains.
+
+### §5-A.2 Approved Ingest Methods
+
+External data (from apps without native Gemini extensions) enters a Gem's scope through one of four approved methods, ordered by user friction:
+
+| Method | Mechanism | Friction |
+|--------|-----------|----------|
+| **Email forwarding** | App sends notifications to Gmail; Gem reads via Workspace extension | Zero — automatic |
+| **Paste** | User copies data from app and pastes into Gem chat | Low — per interaction |
+| **Sheet import** | User exports from app, imports to the Facet's Google Sheet | Medium — periodic |
+| **Automation** | IFTTT / Zapier / Apple Shortcuts write rows to the Facet's Google Sheet | One-time setup |
+
+A Facet must not ingest data through methods not declared in its contract.
+
+### §5-A.3 Cross-Domain Data Isolation
+
+- Each Facet may only access data sources declared in its own contract.
+- Facets must not read another Facet's scoped data (e.g., Peso must not search health-related emails).
+- The Orchestrator is the only agent permitted to view data across Facet boundaries.
+- The Gem's `instructions.md` must explicitly state both what is **in scope** and what is **out of scope**.
+
+### §5-A.4 Validation & Hallucination Guardrails
+
+Every Gem's instructions must enforce three validation rules:
+
+1. **Source Citation** — every factual claim must cite its source: `[Gmail]`, `[Sheet]`, `[Calendar]`, `[Pasted]`, or `[Search]`. If no source exists, the agent must say "I don't have data for that."
+2. **Confidence Tiering** — distinguish between **Verified** (directly read from a source), **Inferred** (conclusions from verified data), and **Assumed** (user statements without source data).
+3. **Input Validation** — when reading from Sheets or pasted input, flag missing fields, impossible values, and format inconsistencies. Ask the user to correct before proceeding.
+
+### §5-A.5 Future-Proofing
+
+The Data Access Contract schema is designed so that:
+
+- When Google ships per-extension scoping, `data_scope` maps directly to platform controls.
+- When Gemini adds tool-use or MCP, `external_sources` becomes a tool registry.
+- When Gemini adds Gem-to-Gem communication, cross-domain isolation becomes platform-enforced.
+
+No schema change is required — behavioral guardrails become platform constraints.
 
 ---
 

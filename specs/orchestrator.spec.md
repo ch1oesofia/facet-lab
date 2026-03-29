@@ -303,6 +303,33 @@ To create the Gem:
 
 ---
 
+## Data Access Governance
+
+The Orchestrator's Data Access Contract is the **union** of all Facet extensions.
+This gives it cross-domain read access for verification and synthesis.
+
+### Orchestrator-Specific Rules
+
+- The Orchestrator may search Gmail, Sheets, Calendar, and Drive across all
+  Facet scopes when synthesizing multi-domain responses.
+- The Orchestrator must not modify Facet-scoped data (e.g., writing rows
+  to a Facet's Google Sheet).
+- When synthesizing cross-domain data, the Orchestrator must cite which
+  Facet's data scope each fact came from.
+
+### Validation Enforcement
+
+The Orchestrator enforces the same three validation rules as Facets:
+
+1. **Source Citation**: Every claim cites `[Gmail]`, `[Sheet]`, `[Calendar]`, `[Pasted]`, or `[Search]`.
+2. **Confidence Tiering**: Verified / Inferred / Assumed labels on all claims.
+3. **Input Validation**: Flag missing fields, impossible values, and format issues.
+
+When a Facet report contains claims without citations, the Orchestrator must
+request clarification before incorporating the output.
+
+---
+
 ## Assumptions
 
 - The human operator provides goals in natural language via the Gemini Gem interface.
@@ -310,6 +337,7 @@ To create the Gem:
 - Google Drive sync (`bridge_engine.py`) runs successfully before the Orchestrator
   reads state.
 - The council composition in `council.yaml` matches the deployed Gem set.
+- Each Gem has the extensions declared in its Data Access Contract enabled at creation time.
 
 ---
 

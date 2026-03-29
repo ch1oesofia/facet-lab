@@ -20,8 +20,10 @@ This questionnaire helps you **name those voices, give them roles, and turn
 them into Gemini Gems** that actually work together. The output is a populated
 `council.yaml` ready to bootstrap.
 
-For a completed example, see the **[Example Council](example-council.md)** —
-the original five-agent proof of concept (Baymax, Tony, Maddy, Dora, Peso).
+For a completed example, see the **[Example Walkthrough](example-walkthrough.md)** —
+the questionnaire answers that produced the original five-agent council
+(Baymax, Tony, Maddy, Dora, Peso). The resulting design is in the
+**[Example Council](example-council.md)**.
 
 ---
 
@@ -181,6 +183,36 @@ Dora (Calendar), and Peso (Finances).
 > - [ ] Yes
 > - [ ] No — rethink: _______________
 
+**Q8a. Data Access** *(for each Facet)*
+
+> **Gemini Extensions**: Which Google tools does this Facet need?
+> - [ ] Google Workspace (Gmail, Sheets, Drive, Docs)
+> - [ ] Google Calendar
+> - [ ] Google Search
+> - [ ] Google Maps
+> - [ ] YouTube
+>
+> **Data Scope**: Within those extensions, what specifically should this
+> Facet access? Be precise — this creates isolation between agents.
+>
+> | Extension | What to access | What to ignore |
+> |-----------|---------------|----------------|
+> | Gmail     | _______________| _______________|
+> | Sheets    | _______________| _______________|
+> | Calendar  | _______________| _______________|
+> | Drive     | _______________| _______________|
+> | Search    | _______________| _______________|
+>
+> **External Apps**: What non-Google apps feed data into this domain?
+>
+> | App | How data enters | Format |
+> |-----|----------------|--------|
+> | ___ | [ ] Email arrives automatically / [ ] Paste into chat / [ ] Import to Sheet | ___ |
+> | ___ | [ ] Email arrives automatically / [ ] Paste into chat / [ ] Import to Sheet | ___ |
+>
+> *If the app already emails you summaries (gym receipts, bank alerts,
+> job notifications), choose "Email arrives automatically" — zero effort.*
+
 ---
 
 ## Part 4 — Validate the Council
@@ -212,8 +244,7 @@ Translate your answers into `config/council.yaml`:
 |--------|---------|
 | Q6 (name) | `orchestrator.name` |
 | Q7 (description) | `orchestrator.description` |
-| Q8 (per Facet) | `facets[]` entries: name, domain, role, bmad_role, description |
-
+| Q8 (per Facet) | `facets[]` entries: name, domain, role, bmad_role, description || Q8a (per Facet) | `facets[]` entries: extensions, data_scope, external_sources |
 Then run:
 
 ```bash
@@ -226,4 +257,4 @@ Your council is ready. See the [README](../README.md) for next steps.
 
 *Grounded in the [Theoretical Foundations](theoretical-foundations.md).
 Guided by the [Design Your Council](design-your-council.md) process.
-Example: the [Original Five](example-council.md).*
+Example: [Walkthrough](example-walkthrough.md) · [Council](example-council.md).*

@@ -101,6 +101,9 @@ function finishDiscover() {
     role: '',
     description: '',
     pillarText: p.text,
+    extensions: [],
+    data_scope: {},
+    external_sources: [],
   }));
 
   renderDesignFacets();
@@ -163,15 +166,77 @@ function renderDesignFacets() {
         <textarea data-facet="${i}" data-field="description" rows="2"
                   placeholder="How does this agent think and communicate?">${escapeHTML(f.description)}</textarea>
       </div>
+      <details class="data-access-details">
+        <summary>Data Access ✦</summary>
+        <div class="data-access-inner">
+          <div class="form-field full">
+            <label>Gemini Extensions</label>
+            <div class="ext-checkboxes" data-facet="${i}">
+              <label class="ext-opt"><input type="checkbox" value="google_workspace" ${(f.extensions||[]).includes('google_workspace') ? 'checked' : ''}> Workspace (Gmail, Sheets, Drive)</label>
+              <label class="ext-opt"><input type="checkbox" value="google_calendar" ${(f.extensions||[]).includes('google_calendar') ? 'checked' : ''}> Calendar</label>
+              <label class="ext-opt"><input type="checkbox" value="google_search" ${(f.extensions||[]).includes('google_search') ? 'checked' : ''}> Search</label>
+              <label class="ext-opt"><input type="checkbox" value="google_maps" ${(f.extensions||[]).includes('google_maps') ? 'checked' : ''}> Maps</label>
+              <label class="ext-opt"><input type="checkbox" value="youtube" ${(f.extensions||[]).includes('youtube') ? 'checked' : ''}> YouTube</label>
+            </div>
+          </div>
+          <div class="form-field full">
+            <label>Gmail Scope <span class="hint">(what emails should this agent read?)</span></label>
+            <input type="text" data-facet="${i}" data-scope="gmail"
+                   placeholder="e.g. Bank alerts, transaction receipts"
+                   value="${escapeAttr((f.data_scope||{}).gmail || '')}">
+          </div>
+          <div class="form-field full">
+            <label>Sheets Name <span class="hint">(a dedicated Google Sheet for this agent)</span></label>
+            <input type="text" data-facet="${i}" data-scope="sheets"
+                   placeholder="e.g. Facet Lab — ${escapeAttr(f.name || 'AgentName')}"
+                   value="${escapeAttr((f.data_scope||{}).sheets || '')}">
+          </div>
+          <div class="form-field full">
+            <label>External Apps <span class="hint">(non-Google apps that feed data to this agent)</span></label>
+            <textarea data-facet="${i}" data-field="external_raw" rows="2"
+                      placeholder="e.g. Vesync — paste device readings&#10;LinkedIn — job alert emails arrive automatically">${formatExternalSources(f.external_sources)}</textarea>
+          </div>
+        </div>
+      </details>
     `;
     container.appendChild(card);
   });
 
-  container.querySelectorAll('input, textarea').forEach(el => {
+  container.querySelectorAll('input[data-field], textarea[data-field]').forEach(el => {
     el.addEventListener('input', e => {
       const idx = +e.target.dataset.facet;
       const field = e.target.dataset.field;
-      state.facets[idx][field] = e.target.value;
+      if (field === 'external_raw') {
+        state.facets[idx].external_sources = parseExternalSources(e.target.value);
+      } else {
+        state.facets[idx][field] = e.target.value;
+      }
+      updatePreview();
+    });
+  });
+
+  container.querySelectorAll('input[data-scope]').forEach(el => {
+    el.addEventListener('input', e => {
+      const idx = +e.target.dataset.facet;
+      const key = e.target.dataset.scope;
+      if (!state.facets[idx].data_scope) state.facets[idx].data_scope = {};
+      state.facets[idx].data_scope[key] = e.target.value;
+      updatePreview();
+    });
+  });
+
+  container.querySelectorAll('.ext-checkboxes input[type="checkbox"]').forEach(el => {
+    el.addEventListener('change', e => {
+      const idx = +e.target.closest('.ext-checkboxes').dataset.facet;
+      const val = e.target.value;
+      const exts = state.facets[idx].extensions || [];
+      if (e.target.checked) {
+        if (!exts.includes(val)) exts.push(val);
+      } else {
+        const pos = exts.indexOf(val);
+        if (pos > -1) exts.splice(pos, 1);
+      }
+      state.facets[idx].extensions = exts;
       updatePreview();
     });
   });
@@ -239,6 +304,11 @@ function finishDesign() {
       return;
     }
   }
+
+  // Compute orchestrator extensions as union of all facet extensions
+  const allExts = new Set();
+  state.facets.forEach(f => (f.extensions || []).forEach(e => allExts.add(e)));
+  state.orchestrator.extensions = [...allExts];
 
   renderGemCards();
   goTo('generate');
@@ -311,6 +381,26 @@ function createGemCard({ name, role, isOrch, instructions, knowledge }) {
   });
 
   return card;
+}
+
+// ─── Data Access Helpers ───
+
+function formatExternalSources(sources) {
+  if (!sources || !sources.length) return '';
+  return sources.map(s => `${s.app} — ${s.ingest} ${s.format || ''}`.trim()).join('\n');
+}
+
+function parseExternalSources(raw) {
+  if (!raw || !raw.trim()) return [];
+  return raw.trim().split('\n').filter(Boolean).map(line => {
+    const parts = line.split('—').map(s => s.trim());
+    if (parts.length < 2) return { app: parts[0], ingest: 'paste', format: '' };
+    const rest = parts.slice(1).join('—').trim();
+    const ingestMatch = rest.match(/^(email_forward|paste|sheet_import|automation)\b/i);
+    const ingest = ingestMatch ? ingestMatch[1].toLowerCase() : 'paste';
+    const format = ingestMatch ? rest.slice(ingest.length).trim() : rest;
+    return { app: parts[0], ingest, format };
+  });
 }
 
 // ─── Utilities ───

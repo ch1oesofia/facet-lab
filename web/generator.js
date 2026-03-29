@@ -12,6 +12,8 @@ export function generateOrchInstructions(orch, facets) {
   const facetNames = facets.map(f => f.name).join(', ');
   const style = orch.style ? `\nCoordination style: ${orch.style}` : '';
 
+  const orchDataAccess = buildOrchDataAccessSection(orch, facets);
+
   return `# ${orch.name} — Orchestrator
 
 You are **${orch.name}**, the Chief Orchestrator of a Facet Lab Inner Council.
@@ -29,7 +31,7 @@ ${facetRoster}
 3. Wait for the user to bring back each Facet's Report Block.
 4. Synthesize all reports into a coherent deliverable.
 5. Never perform domain-specific work yourself — always delegate.
-
+${orchDataAccess}
 ## Relay Protocol — Delegation
 
 When you need a Facet to do work, output this exact block so the user can
@@ -86,6 +88,8 @@ export function generateFacetInstructions(facet, orch, facets) {
     .map(f => `  - **${f.name}**: ${f.domain}`)
     .join('\n');
 
+  const dataAccess = buildDataAccessSection(facet);
+
   return `# ${facet.name} — ${facet.role || 'Facet'}
 
 You are **${facet.name}**, a specialist Facet in a Facet Lab Inner Council.
@@ -102,7 +106,7 @@ ${facet.description.trim() || `Specialist in ${facet.domain}.`}
 
 ## Sibling Facets (for awareness only — do not do their work)
 ${siblings || '  (none)'}
-
+${dataAccess}
 ## Relay Protocol — Receiving Delegations
 
 The user will paste a Delegation Block from ${orch.name}:
@@ -206,10 +210,116 @@ ${councilYaml}
 
 // ─── Helpers ───
 
+const EXT_LABELS = {
+  google_workspace: 'Google Workspace (Gmail, Sheets, Drive, Docs)',
+  google_calendar: 'Google Calendar',
+  google_search: 'Google Search',
+  google_maps: 'Google Maps',
+  youtube: 'YouTube',
+};
+
+const INGEST_LABELS = {
+  paste: 'User pastes into chat',
+  email_forward: 'Emails arrive in Gmail automatically',
+  sheet_import: 'User imports to Google Sheet',
+  automation: 'Automated writes to Google Sheet',
+};
+
+function buildDataAccessSection(facet) {
+  const extensions = facet.extensions || [];
+  const dataScope = facet.data_scope || {};
+  const externalSources = facet.external_sources || [];
+
+  if (!extensions.length && !Object.keys(dataScope).length && !externalSources.length) return '\n';
+
+  let s = '\n## Data Access Contract\n\n';
+
+  if (extensions.length) {
+    s += '**Extensions to enable on this Gem:**\n\n';
+    extensions.forEach(e => { s += `- ${EXT_LABELS[e] || e}\n`; });
+    s += '\n';
+  }
+
+  if (Object.keys(dataScope).length) {
+    s += '**Data Scope (what you may access):**\n\n';
+    Object.entries(dataScope).forEach(([k, v]) => {
+      s += `- **${k[0].toUpperCase() + k.slice(1)}**: ${v}\n`;
+    });
+    s += '\n**Out of Scope**: Do not access data outside the scope above.\n';
+    s += 'If a request requires data from another Facet\'s domain, set STATUS to `partial` and note the cross-domain need.\n\n';
+  }
+
+  if (externalSources.length) {
+    s += '**External Data Sources:**\n\n';
+    externalSources.forEach(src => {
+      const label = INGEST_LABELS[src.ingest] || src.ingest || 'Unknown';
+      s += `- **${src.app || 'Unknown'}**: ${label}. Format: ${src.format || 'Any'}\n`;
+    });
+    s += '\n';
+  }
+
+  s += '**Validation Rules:**\n\n';
+  s += '1. **Source Citation**: Every factual claim must cite its source — `[Gmail]`, `[Sheet]`, `[Calendar]`, `[Pasted]`, or `[Search]`. If no source exists, say "I don\'t have data for that."\n';
+  s += '2. **Confidence Tiering**: Label claims as **Verified** (read from source), **Inferred** (derived from verified data), or **Assumed** (user statement, unverified).\n';
+  s += '3. **Input Validation**: When reading Sheets or pasted data, flag missing fields, impossible values, and format inconsistencies. Ask the user to correct before proceeding.\n';
+
+  return s;
+}
+
+function buildOrchDataAccessSection(orch, facets) {
+  const allExts = new Set(orch.extensions || []);
+  facets.forEach(f => (f.extensions || []).forEach(e => allExts.add(e)));
+
+  if (!allExts.size) return '\n';
+
+  let s = '\n## Data Access\n\n';
+  s += 'You have cross-domain read access for verification and synthesis.\n\n';
+  s += '**Extensions to enable on this Gem:**\n\n';
+  [...allExts].sort().forEach(e => { s += `- ${EXT_LABELS[e] || e}\n`; });
+  s += '\n';
+
+  const facetsWithScope = facets.filter(f => f.data_scope && Object.keys(f.data_scope).length);
+  if (facetsWithScope.length) {
+    s += '**Facet Data Scopes** (for cross-domain synthesis):\n\n';
+    facetsWithScope.forEach(f => {
+      const items = Object.entries(f.data_scope).map(([k, v]) => `${k}: ${v}`).join(', ');
+      s += `- **${f.name}**: ${items}\n`;
+    });
+    s += '\n';
+  }
+
+  s += '**Validation Rules:**\n\n';
+  s += '1. **Source Citation**: Every claim must cite `[Gmail]`, `[Sheet]`, `[Calendar]`, `[Pasted]`, or `[Search]`.\n';
+  s += '2. **Confidence Tiering**: Verified / Inferred / Assumed labels on all claims.\n';
+  s += '3. **Input Validation**: Flag missing fields, impossible values, format issues.\n';
+  s += '4. When a Facet report lacks citations, request clarification before incorporating.\n';
+
+  return s;
+}
+
 function buildCouncilYaml(orch, facets) {
-  let yaml = `orchestrator:\n  name: "${orch.name}"\n  role: "Chief Orchestrator"\n  description: >\n    ${orch.description.trim()}\n\nfacets:\n`;
+  let yaml = `orchestrator:\n  name: "${orch.name}"\n  role: "Chief Orchestrator"\n  description: >\n    ${orch.description.trim()}\n`;
+  if (orch.extensions && orch.extensions.length) {
+    yaml += `  extensions:\n`;
+    orch.extensions.forEach(e => { yaml += `    - ${e}\n`; });
+  }
+  yaml += `\nfacets:\n`;
   facets.forEach(f => {
     yaml += `  - name: "${f.name}"\n    domain: "${f.domain}"\n    role: "${f.role || 'Specialist'}"\n    description: >\n      ${f.description.trim() || `Specialist in ${f.domain}.`}\n`;
+    if (f.extensions && f.extensions.length) {
+      yaml += `    extensions:\n`;
+      f.extensions.forEach(e => { yaml += `      - ${e}\n`; });
+    }
+    if (f.data_scope && Object.keys(f.data_scope).length) {
+      yaml += `    data_scope:\n`;
+      Object.entries(f.data_scope).forEach(([k, v]) => { yaml += `      ${k}: "${v}"\n`; });
+    }
+    if (f.external_sources && f.external_sources.length) {
+      yaml += `    external_sources:\n`;
+      f.external_sources.forEach(src => {
+        yaml += `      - app: "${src.app}"\n        ingest: "${src.ingest}"\n        format: "${src.format}"\n`;
+      });
+    }
   });
   return yaml;
 }
@@ -346,7 +456,34 @@ This document may only be amended by the human operator. No agent may modify the
 ## Article V — Security & Boundaries
 
 1. **Human Override**: The human operator may override any agent decision at any time.
-2. **Scope Enforcement**: Agents must not access external APIs or services unless explicitly authorized.
+2. **Scope Enforcement**: Agents must not access data sources outside those declared in their Data Access Contract (see §5-A).
+
+## Article V-A — Data Access Governance
+
+### §5-A.1 The Data Access Contract
+
+Each Facet declares a Data Access Contract that specifies: extensions (which Gemini extensions to enable), data scope (what to access within those extensions), and external sources (non-Google apps and their approved ingest method).
+
+### §5-A.2 Approved Ingest Methods
+
+| Method | Mechanism | Friction |
+|--------|-----------|----------|
+| Email forwarding | App sends notifications to Gmail; Gem reads via Workspace | Zero |
+| Paste | User copies data from app and pastes into Gem chat | Low |
+| Sheet import | User exports from app, imports to Facet's Google Sheet | Medium |
+| Automation | IFTTT / Zapier / Shortcuts write rows to Facet's Sheet | One-time setup |
+
+### §5-A.3 Cross-Domain Data Isolation
+
+- Each Facet may only access data declared in its own contract.
+- The Orchestrator is the only agent with cross-domain data access.
+- Instructions must state what is in scope AND what is out of scope.
+
+### §5-A.4 Validation & Hallucination Guardrails
+
+1. **Source Citation**: Every claim must cite [Gmail], [Sheet], [Calendar], [Pasted], or [Search].
+2. **Confidence Tiering**: Verified / Inferred / Assumed.
+3. **Input Validation**: Flag missing fields, impossible values, format issues.
 
 ---
 

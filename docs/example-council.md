@@ -2,6 +2,10 @@
 
 > A worked reference showing how the creator's personal council was designed,
 > configured, and deployed. Use this as a model for building your own.
+>
+> To see how these answers were discovered, read the
+> [Example Walkthrough](example-walkthrough.md) — the questionnaire that
+> produced this council.
 
 ---
 
@@ -166,6 +170,10 @@ orchestrator:
     and ensures no single domain monopolizes attention. Warm but structured — 
     asks clarifying questions before acting and always defers domain-specific
     work to the appropriate Facet.
+  extensions:
+    - google_workspace
+    - google_calendar
+    - google_search
 
 facets:
   - name: "Tony"
@@ -176,6 +184,21 @@ facets:
       Tony handles professional development — skill acquisition, goal setting,
       networking strategy, project prioritization, and career trajectory
       planning. Direct and results-oriented.
+    extensions:
+      - google_workspace
+      - google_search
+    data_scope:
+      gmail: "Job alerts, LinkedIn notifications, recruiter messages"
+      sheets: "Facet Lab — Tony"
+      drive: "Resume, cover letters, career docs"
+      search: "Job market research, industry trends, company analysis"
+    external_sources:
+      - app: "LinkedIn"
+        ingest: "paste"
+        format: "Job listings, profile analytics, or connection messages"
+      - app: "Job boards (Indeed, Glassdoor)"
+        ingest: "email_forward"
+        format: "Job alert emails arrive in Gmail automatically"
 
   - name: "Maddy"
     domain: "Health & Wellness"
@@ -185,6 +208,21 @@ facets:
       Maddy covers physical health (exercise, nutrition, sleep) and mental
       wellbeing (stress management, emotional regulation, recovery). Evidence-
       based but warm — encourages rather than lectures.
+    extensions:
+      - google_workspace
+    data_scope:
+      gmail: "Wellness app summaries, gym receipts, health notifications"
+      sheets: "Facet Lab — Maddy"
+    external_sources:
+      - app: "Vesync"
+        ingest: "paste"
+        format: "Device readings — weight, air quality, or sleep data screenshots"
+      - app: "Wellhub"
+        ingest: "email_forward"
+        format: "Workout summary and booking confirmation emails"
+      - app: "Instagram"
+        ingest: "paste"
+        format: "Wellness content or engagement insights screenshots"
 
   - name: "Dora"
     domain: "Calendar & Scheduling"
@@ -194,6 +232,17 @@ facets:
       Dora manages time — weekly planning, schedule optimization, conflict
       detection, and deadline tracking. The dispatcher who turns plans from
       other Facets into calendar-ready actions.
+    extensions:
+      - google_workspace
+      - google_calendar
+    data_scope:
+      calendar: "All calendars — read events, detect conflicts, suggest slots"
+      sheets: "Facet Lab — Dora"
+      gmail: "Event invitations and RSVP requests only"
+    external_sources:
+      - app: "TickTick"
+        ingest: "paste"
+        format: "Task lists or daily agenda screenshots"
 
   - name: "Peso"
     domain: "Finances"
@@ -203,6 +252,18 @@ facets:
       Peso handles financial planning, budgeting, investment strategy, expense
       tracking, and economic risk assessment. Conservative — flags costs,
       quantifies tradeoffs, ensures financial sustainability.
+    extensions:
+      - google_workspace
+    data_scope:
+      gmail: "Bank alerts, transaction receipts, billing notifications, monthly statements"
+      sheets: "Facet Lab — Peso"
+    external_sources:
+      - app: "Banking apps"
+        ingest: "email_forward"
+        format: "Transaction alerts and monthly statements arrive in Gmail automatically"
+      - app: "Mint / budgeting apps"
+        ingest: "sheet_import"
+        format: "CSV export imported to Facet Lab — Peso sheet monthly"
 ```
 
 ---
@@ -348,6 +409,7 @@ Orchestrator has clear jurisdiction rules rather than ad-hoc judgment calls.
 
 ---
 
-*See also: [Origin Story](origin-story.md) ·
+*See also: [Example Walkthrough](example-walkthrough.md) ·
+[Origin Story](origin-story.md) ·
 [Theoretical Foundations](theoretical-foundations.md) ·
 [Design Your Council](design-your-council.md)*
